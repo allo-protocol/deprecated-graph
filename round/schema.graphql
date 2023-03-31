@@ -60,7 +60,7 @@ type Round @entity {
   roundEndTime: String!
   token: String!
   matchAmount: BigInt!
-  roundFeePercentage: Int!
+  roundFeePercentage: BigInt!
   roundFeeAddress: String!
   roundMetaPtr: MetaPtr! # id = "roundMetaPtr-{roundAddress.toHex()}"
   applicationMetaPtr: MetaPtr! # id = "applicationMetaPtr-{roundAddress.toHex()}"

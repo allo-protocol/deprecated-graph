@@ -104,7 +104,7 @@ export function handleNewProjectApplication(
   event: NewProjectApplicationEvent
 ): void {
   const _round = event.address.toHex();
-  const _project = event.params.project.toHex();
+  const _project = event.params.projectID.toHex();
   const _metaPtr = event.params.applicationMetaPtr;
 
   const projectId = [_project, _round].join("-");
@@ -226,4 +226,15 @@ export function handleProjectsMetaPtrUpdated(
 
     if (isProjectUpdated) project.save();
   }
+}
+
+/**
+ * Handles indexing on ApplicationStatusesUpdatedEvent event.
+ * 
+ *
+ * @param event ApplicationStatusesUpdatedEvent
+ */
+
+export function handleApplicationStatusesUpdated(): void {
+ // Todo  
 }

@@ -150,10 +150,12 @@ templates:
           handler: handleRoleGranted
         - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
           handler: handleRoleRevoked
-        - event: NewProjectApplication(indexed bytes32,(uint256,string))
+        - event: NewProjectApplication(indexed bytes32,uint256,(uint256,string))
           handler: handleNewProjectApplication
         - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
           handler: handleProjectsMetaPtrUpdated
+        - event: ApplicationStatusesUpdated(indexed uint256, indexed uint256)
+          handler: handleApplicationStatusesUpdated
       file: ./src/round/implementation.ts
 
   # QuadraticFundingVotingStrategyImplementation

@@ -4,3 +4,4 @@ subgraph.yaml
 /data/
 data
 tests/.bin
+.env
