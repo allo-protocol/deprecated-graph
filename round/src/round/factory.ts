@@ -9,7 +9,7 @@ import {
 } from "../../generated/templates/RoundImplementation/RoundImplementation";
 
 import { updateMetaPtr } from "../utils";
-import { log } from "@graphprotocol/graph-ts";
+import { BigInt, log } from "@graphprotocol/graph-ts";
 
 
 /**
@@ -100,6 +100,10 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
 
   if (version.reverted) {
     round.version = "0.1.0";
+    round.matchAmount = BigInt.fromI32(0);
+    round.roundFeePercentage = 0;
+    round.roundFeeAddress = "0x0";
+
   } else {
     round.version = version.value.toString();
 

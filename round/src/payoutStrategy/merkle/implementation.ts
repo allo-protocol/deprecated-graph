@@ -98,7 +98,7 @@ export function handleFundsDistributed(event: FundsDistributedEvent): void {
   payout.payoutStrategy = payoutStrategy.id;
   payout.amount = event.params.amount;
   payout.token = event.params.token.toHex();
-  payout.projectId = event.params.projectId.toString();
+  payout.projectId = event.params.projectId.toHex();
   payout.grantee = event.params.grantee.toHex();
 
   payout.txnHash = event.transaction.hash.toHex();
