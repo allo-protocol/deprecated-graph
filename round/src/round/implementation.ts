@@ -229,6 +229,12 @@ export function handleProjectsMetaPtrUpdated(
  *
  *
  * @param event ApplicationStatusesUpdatedEvent
+ * 
+ * @notice Application status 
+ *  0 => PENDING
+ *  1 => APPROVED
+ *  2 => REJECTED
+ *  3 => CANCELLED
  */
 
 export function handleApplicationStatusesUpdated(
