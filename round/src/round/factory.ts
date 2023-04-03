@@ -2,7 +2,7 @@ import {
   RoundCreated as RoundCreatedEvent
 } from "../../generated/Round/RoundFactory"
 
-import { PayoutStrategy, Program, Round, VotingStrategy } from "../../generated/schema";
+import { PayoutStrategy, Program, Round } from "../../generated/schema";
 import { RoundImplementation } from  "../../generated/templates";
 import {
   RoundImplementation as RoundImplementationContract

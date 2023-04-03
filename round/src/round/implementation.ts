@@ -98,7 +98,7 @@ export function handleNewProjectApplication(
 ): void {
   const _round = event.address.toHex();
   const _project = event.params.projectID.toHex();
-  const _appIndex = event.params.nextApplicationIndex.toI32();
+  const _appIndex = event.params.applicationIndex.toI32();
   const _metaPtr = event.params.applicationMetaPtr;
 
   const roundApplicationId = [_round, _appIndex.toString()].join("-");
@@ -164,18 +164,20 @@ export function handleApplicationStatusesUpdated(
     const currentApplicationIndex = startApplicationIndex + i;
 
     const status = applicationStatusesBitMap
-      .rightShift(i * 2)
+      .rightShift(u8(i * 2))
       .bitAnd(new BigInt(3))
       .toI32();
 
     // load RoundApplication entity
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
     const roundApplication = RoundApplication.load(roundApplicationId);
-    if (!RoundApplication) continue;
+    if (roundApplication == null) {
+      continue;
+    }
 
     // update status
     roundApplication.status = status
-    RoundApplication.save();
+    roundApplication.save();
   }
 
 
