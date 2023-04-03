@@ -75,12 +75,13 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   const payoutStrategyAddress = roundContract.payoutStrategy().toHex();
   const payoutStrategy = PayoutStrategy.load(payoutStrategyAddress);
 
-  if (payoutStrategy) {
-    round.payoutStrategy = payoutStrategy.id;
-  } else {
-    // V0 where payoutStrategy was simply an address
-    round.payoutStrategyV0 = roundContract.payoutStrategy().toHex();
+  if (!payoutStrategy) {
+    // avoid creating a round if payoutStrategy does not exist
+    log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
+    return;
   }
+
+  round.payoutStrategy = payoutStrategy.id;
 
   round.votingStrategy = roundContract.votingStrategy().toHex();
 

@@ -52,8 +52,8 @@ type Round @entity {
   roles: [RoundRole!]! @derivedFrom(field: "round")
   accounts: [RoundAccount!]! @derivedFrom(field: "round")
   projects: [RoundProject!] @derivedFrom(field: "round")
-  votingStrategy: string!
-  payoutStrategy: PayoutStrategy
+  votingStrategy: String!
+  payoutStrategy: PayoutStrategy!
   applicationsStartTime: String!
   applicationsEndTime: String!
   roundStartTime: String!
@@ -68,9 +68,6 @@ type Round @entity {
   createdAt: BigInt!
   updatedAt: BigInt!
   version: String!
-
-  # legacy
-  payoutStrategyV0: String
 }
 
 # id = round.toHex()-role.toHex()
