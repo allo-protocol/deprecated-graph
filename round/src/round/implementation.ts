@@ -1,6 +1,7 @@
 import {
   NewProjectApplication as NewProjectApplicationEvent,
   ProjectsMetaPtrUpdated as ProjectsMetaPtrUpdatedEvent,
+  ApplicationStatusesUpdated as ApplicationStatusesUpdatedEvent,
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent,
 } from "../../generated/templates/RoundImplementation/RoundImplementation";
@@ -13,15 +14,8 @@ import {
   RoundProject,
 } from "../../generated/schema";
 import { fetchMetaPtrData, generateID, updateMetaPtr } from "../utils";
-import { JSONValueKind, log, store } from "@graphprotocol/graph-ts";
+import { JSONValueKind, log, store, BigInt, Bytes} from "@graphprotocol/graph-ts";
 
-// @dev: Enum for different states a project application can be in
-// enum ProjectApplicationStatus = {
-//   PENDING   = "PENDING",
-//   APPROVED  = "APPROVED",
-//   REJECTED  = "REJECTED",
-//   APPEAL    = "APPEAL"
-// };
 
 /**
  * @dev Handles indexing on RoleGranted event.
@@ -85,7 +79,7 @@ export function handleRoleRevoked(event: RoleRevokedEvent): void {
   let account = RoundAccount.load(accountId);
   if (account) {
     store.remove("ProgramAccount", account.id);
-   
+
     // update timestamp
     round.updatedAt = event.block.timestamp;
     round.save();
@@ -230,11 +224,56 @@ export function handleProjectsMetaPtrUpdated(
 
 /**
  * Handles indexing on ApplicationStatusesUpdatedEvent event.
- * 
+ *
  *
  * @param event ApplicationStatusesUpdatedEvent
  */
 
-export function handleApplicationStatusesUpdated(): void {
- // Todo  
+export function handleApplicationStatusesUpdated(
+  event: ApplicationStatusesUpdatedEvent
+): void {
+
+  const APPLICATIONS_PER_ROW = 128;
+
+  const rowIndex = event.params.index;
+  const applicationStatusesBitMap = event.params.status;
+
+
+
+  // 1. get the status for all the applications in the row
+  // 2. load the RoundProject entity for each application
+  // 3. update the application status
+
+  // TOOD: Should we rename RoundProject to RoundApplication ?
+
+  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
+
+  for (let i = 0; i <= APPLICATIONS_PER_ROW; i++) {
+    const currentApplicationIndex = startApplicationIndex + i;
+
+    const status = applicationStatusesBitMap
+      .rightShift(i * 2)
+      .bitAnd(new BigInt(3))
+      .toI32();
+
+    // @dev: Enum for different states a project application can be in
+    // {
+    //   PENDING   = "00",
+    //   APPROVED  = "01",
+    //   REJECTED  = "10",
+    //   CANCELLED = "11"
+    // };
+
+
+    // // load RoundProject entity
+    // const roundProjectId = [event.address.toHex(), applicationIndex.toString()].join("-");
+    // const roundProject = RoundProject.load(roundProjectId);
+    // if (!roundProject) continue;
+
+    // // update status
+    // roundProject.status = status.toString();
+    // roundProject.save();
+  }
+
+
 }
