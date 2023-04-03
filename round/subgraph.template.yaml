@@ -50,30 +50,6 @@ dataSources:
           handler: handleRoundCreated
       file: ./src/round/factory.ts
 
-  # QuadraticFundingVotingStrategyFactory
-  - kind: ethereum/contract
-    name: QuadraticFundingVotingStrategy
-    network: {{ network }}
-    source:
-      address: '{{ QFVotingStrategyFactoryAddress }}'
-      abi: QuadraticFundingVotingStrategyFactory
-      startBlock: {{ startBlock }}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - VotingStrategy
-      abis:
-        - name: QuadraticFundingVotingStrategyFactory
-          file: ./abis/QuadraticFundingVotingStrategyFactory.json
-        - name: QuadraticFundingVotingStrategyImplementation
-          file: ./abis/QuadraticFundingVotingStrategyImplementation.json
-      eventHandlers:
-        - event: VotingContractCreated(indexed address,indexed address)
-          handler: handleVotingContractCreated
-      file: ./src/votingStrategy/QuadraticFunding/factory.ts
-
   # MerklePayoutStrategyFactory
   - kind: ethereum/contract
     name: MerklePayoutStrategyFactory
@@ -148,28 +124,6 @@ templates:
         - event: ApplicationStatusesUpdated(indexed uint256, indexed uint256)
           handler: handleApplicationStatusesUpdated
       file: ./src/round/implementation.ts
-
-  # QuadraticFundingVotingStrategyImplementation
-  - kind: ethereum/contract
-    name: QuadraticFundingVotingStrategyImplementation
-    network: {{ network }}
-    source:
-      abi: QuadraticFundingVotingStrategyImplementation
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - QFVote
-      abis:
-        - name: QuadraticFundingVotingStrategyImplementation
-          file: ./abis/QuadraticFundingVotingStrategyImplementation.json
-      eventHandlers:
-        - event: Voted(address,uint256,indexed address,address,indexed bytes32,indexed address)
-          handler: handleVote
-          receipt: true
-
-      file: ./src/votingStrategy/quadraticFunding/implementation.ts
 
   # MerklePayoutStrategyImplementation
   - kind: ethereum/contract

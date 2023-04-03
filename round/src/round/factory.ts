@@ -82,15 +82,7 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
     round.payoutStrategyV0 = roundContract.payoutStrategy().toHex();
   }
 
-  // link round to votingStrategy
-  const votingStrategyAddress = roundContract.votingStrategy().toHex();
-  const votingStrategy = VotingStrategy.load(votingStrategyAddress);
-  if (!votingStrategy) {
-    // avoid creating a round if votingStrategy does not exist
-    log.warning("--> handleRoundCreated {} : votingStrategy {} is null", [roundContractAddress.toHex(), votingStrategyAddress]);
-    return;
-  }
-  round.votingStrategy = votingStrategy.id;
+  round.votingStrategy = roundContract.votingStrategy().toHex();
 
   // set timestamp
   round.createdAt = event.block.timestamp;
