@@ -102,7 +102,7 @@ export function handleNewProjectApplication(
   const _appIndex = event.params.nextApplicationIndex.toI32();
   const _metaPtr = event.params.applicationMetaPtr;
 
-  const roundApplicationId = [_round, _appIndex].join("-");
+  const roundApplicationId = [_round, _appIndex.toString()].join("-");
 
   // use roundApplicationId as metadataId
   const metaPtrId = roundApplicationId;
@@ -127,7 +127,7 @@ export function handleNewProjectApplication(
   roundApplication.round = round.id;
   roundApplication.applicationIndex = _appIndex;
   roundApplication.metaPtr = metaPtr.id;
-  roundApplication.status = "PENDING";
+  roundApplication.status = 0; // 0 = pending
 
   // set timestamp
   roundApplication.createdAt = event.block.timestamp;
@@ -239,13 +239,7 @@ export function handleApplicationStatusesUpdated(
 
   const rowIndex = event.params.index;
   const applicationStatusesBitMap = event.params.status;
-
-
-
-  // 1. get the status for all the applications in the row
-  // 2. load the RoundApplication entity for each application
-  // 3. update the application status
-
+  const _round = event.address.toHex();
 
   const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
@@ -257,23 +251,14 @@ export function handleApplicationStatusesUpdated(
       .bitAnd(new BigInt(3))
       .toI32();
 
-    // @dev: Enum for different states a project application can be in
-    // {
-    //   PENDING   = "00",
-    //   APPROVED  = "01",
-    //   REJECTED  = "10",
-    //   CANCELLED = "11"
-    // };
+    // load RoundApplication entity
+    const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
+    const roundApplication = RoundApplication.load(roundApplicationId);
+    if (!RoundApplication) continue;
 
-
-    // // load RoundApplication entity
-    // const RoundApplicationId = [event.address.toHex(), applicationIndex.toString()].join("-");
-    // const RoundApplication = RoundApplication.load(RoundApplicationId);
-    // if (!RoundApplication) continue;
-
-    // // update status
-    // RoundApplication.status = status.toString();
-    // RoundApplication.save();
+    // update status
+    roundApplication.status = status
+    RoundApplication.save();
   }
 
 
