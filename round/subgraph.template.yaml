@@ -1,10 +1,6 @@
 specVersion: 0.0.4
 schema:
   file: ./schema.graphql
-# TODO: wait until ipfs.cat is supported in studio
-# features:
-  # - ipfsOnEthereumContracts
-  # - nonDeterministicIpfs
 dataSources:
   # ProgramFactory
   - kind: ethereum/contract
@@ -73,11 +69,6 @@ dataSources:
           file: ./abis/QuadraticFundingVotingStrategyFactory.json
         - name: QuadraticFundingVotingStrategyImplementation
           file: ./abis/QuadraticFundingVotingStrategyImplementation.json
-        ####################
-        # == LEGACY ABI == #
-        ####################
-        - name: QuadraticFundingVotingStrategyImplementationLegacyV1
-          file: ./abis/legacy/QuadraticFundingVotingStrategyImplementation/V1.json
       eventHandlers:
         - event: VotingContractCreated(indexed address,indexed address)
           handler: handleVotingContractCreated
@@ -207,72 +198,3 @@ templates:
           receipt: true
 
       file: ./src/payoutStrategy/merkle/implementation.ts
-
-  ##########################
-  # == LEGACY TEMPLATES == #
-  ##########################
-
-  ##############################################
-  # == RoundImplementation LEGACY TEMPLATES == #
-  ##############################################
-
-  # RoundImplementation/V1.json
-  - kind: ethereum/contract
-    name: RoundImplementationLegacyV1
-    network: {{ network }}
-    source:
-      abi: RoundImplementationLegacyV1
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - RoundRole
-      abis:
-        - name: RoundImplementationLegacyV1
-          file: ./abis/legacy/RoundImplementation/V1.json
-      eventHandlers:
-        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleGranted
-        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
-          handler: handleRoleRevoked
-        - event: NewProjectApplication(indexed bytes32,(uint256,string))
-          handler: handleNewProjectApplication
-        - event: ProjectsMetaPtrUpdated((uint256,string),(uint256,string))
-          handler: handleProjectsMetaPtrUpdated
-      file: ./src/legacy/round/implementationLegacyV1.ts
-
-  ##################################################
-  # == END RoundImplementation LEGACY TEMPLATES == #
-  ##################################################
-
-
-  #######################################################################
-  # == QuadraticFundingVotingStrategyImplementation LEGACY TEMPLATES == #
-  #######################################################################
-
-  # QuadraticFundingVotingStrategyImplementation/V1.json
-  - kind: ethereum/contract
-    name: QuadraticFundingVotingStrategyImplementationLegacyV1
-    network: {{ network }}
-    source:
-      abi: QuadraticFundingVotingStrategyImplementationLegacyV1
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - QFVote
-      abis:
-        - name: QuadraticFundingVotingStrategyImplementationLegacyV1
-          file: ./abis/legacy/QuadraticFundingVotingStrategyImplementation/V1.json
-      eventHandlers:
-        - event: Voted(address,uint256,indexed address,indexed address,indexed address)
-          handler: handleVote
-          receipt: true
-
-      file: ./src/legacy/votingStrategy/quadraticFunding/implementationLegacyV1.ts
-
-  ###########################################################################
-  # == END QuadraticFundingVotingStrategyImplementation LEGACY TEMPLATES == #
-  ###########################################################################
