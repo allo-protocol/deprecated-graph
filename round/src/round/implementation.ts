@@ -11,7 +11,7 @@ import {
   Round,
   RoundAccount,
   RoundRole,
-  RoundProject,
+  RoundApplication,
 } from "../../generated/schema";
 import { fetchMetaPtrData, generateID, updateMetaPtr } from "../utils";
 import { JSONValueKind, log, store, BigInt, Bytes} from "@graphprotocol/graph-ts";
@@ -88,9 +88,9 @@ export function handleRoleRevoked(event: RoleRevokedEvent): void {
 
 /**
  * Handles indexing on NewProjectApplicationEvent event.
- * - creates RoundProject entity
- * - links RoundProject to Round
- * - create MetaPtr entity and links to RoundProject
+ * - creates RoundApplication entity
+ * - links RoundApplication to Round
+ * - create MetaPtr entity and links to RoundApplication
  *
  * @param event NewProjectApplicationEvent
  */
@@ -99,12 +99,13 @@ export function handleNewProjectApplication(
 ): void {
   const _round = event.address.toHex();
   const _project = event.params.projectID.toHex();
+  const _appIndex = event.params.nextApplicationIndex.toI32();
   const _metaPtr = event.params.applicationMetaPtr;
 
-  const projectId = [_project, _round].join("-");
+  const roundApplicationId = [_round, _appIndex].join("-");
 
-  // use projectId as metadataId
-  const metaPtrId = projectId;
+  // use roundApplicationId as metadataId
+  const metaPtrId = roundApplicationId;
 
   // load Round entity
   let round = Round.load(_round);
@@ -117,21 +118,22 @@ export function handleNewProjectApplication(
   metaPtr.pointer = _metaPtr[1].toString();
   metaPtr.save();
 
-  // create new RoundProject entity
-  let project = RoundProject.load(projectId);
-  project = project == null ? new RoundProject(projectId) : project;
+  // create new RoundApplication entity
+  let roundApplication = RoundApplication.load(roundApplicationId);
+  roundApplication = roundApplication == null ? new RoundApplication(roundApplicationId) : roundApplication;
 
-  //  RoundProject
-  project.project = _project.toString();
-  project.round = round.id;
-  project.metaPtr = metaPtr.id;
-  project.status = "PENDING";
+  //  RoundApplication
+  roundApplication.project = _project.toString();
+  roundApplication.round = round.id;
+  roundApplication.applicationIndex = _appIndex;
+  roundApplication.metaPtr = metaPtr.id;
+  roundApplication.status = "PENDING";
 
   // set timestamp
-  project.createdAt = event.block.timestamp;
-  project.updatedAt = event.block.timestamp;
+  roundApplication.createdAt = event.block.timestamp;
+  roundApplication.updatedAt = event.block.timestamp;
 
-  project.save();
+  roundApplication.save();
 }
 
 /**
@@ -185,7 +187,7 @@ export function handleProjectsMetaPtrUpdated(
     const projectId = _id.toString().toLowerCase();
 
     // load project entity
-    let project = RoundProject.load(projectId);
+    let project = RoundApplication.load(projectId);
 
     let isProjectUpdated = false;
 
@@ -241,10 +243,9 @@ export function handleApplicationStatusesUpdated(
 
 
   // 1. get the status for all the applications in the row
-  // 2. load the RoundProject entity for each application
+  // 2. load the RoundApplication entity for each application
   // 3. update the application status
 
-  // TOOD: Should we rename RoundProject to RoundApplication ?
 
   const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
@@ -265,14 +266,14 @@ export function handleApplicationStatusesUpdated(
     // };
 
 
-    // // load RoundProject entity
-    // const roundProjectId = [event.address.toHex(), applicationIndex.toString()].join("-");
-    // const roundProject = RoundProject.load(roundProjectId);
-    // if (!roundProject) continue;
+    // // load RoundApplication entity
+    // const RoundApplicationId = [event.address.toHex(), applicationIndex.toString()].join("-");
+    // const RoundApplication = RoundApplication.load(RoundApplicationId);
+    // if (!RoundApplication) continue;
 
     // // update status
-    // roundProject.status = status.toString();
-    // roundProject.save();
+    // RoundApplication.status = status.toString();
+    // RoundApplication.save();
   }
 
 

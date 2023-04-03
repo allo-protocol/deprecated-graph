@@ -86,10 +86,11 @@ type RoundAccount @entity {
   round: Round!
 }
 
-# id: round.toHex()-project.toHex()
-type RoundProject @entity {
+# id: round.toHex()-applicationIndex
+type RoundApplication @entity {
   id: ID!
   project: String!
+  applicationIndex: Int!
   status: String!
   metaPtr: MetaPtr!
   round: Round!
