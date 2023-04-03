@@ -88,22 +88,10 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   round.createdAt = event.block.timestamp;
   round.updatedAt = event.block.timestamp;
 
-  const version = roundContract.try_VERSION();
-
-  if (version.reverted) {
-    round.version = "0.1.0";
-    round.matchAmount = BigInt.fromI32(0);
-    round.roundFeePercentage = 0;
-    round.roundFeeAddress = "0x0";
-
-  } else {
-    round.version = version.value.toString();
-
-    // index variables introduced in v0.1.0
-    round.matchAmount = roundContract.matchAmount();
-    round.roundFeePercentage = roundContract.roundFeePercentage();
-    round.roundFeeAddress = roundContract.roundFeeAddress().toHex();
-  }
+  round.version = roundContract.VERSION();
+  round.matchAmount = roundContract.matchAmount();
+  round.roundFeePercentage = roundContract.roundFeePercentage();
+  round.roundFeeAddress = roundContract.roundFeeAddress().toHex();
 
 
   round.save();
