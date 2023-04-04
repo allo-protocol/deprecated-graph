@@ -2,7 +2,7 @@ import {
   RoundCreated as RoundCreatedEvent
 } from "../../generated/Round/RoundFactory"
 
-import { PayoutStrategy, Program, Round, VotingStrategy } from "../../generated/schema";
+import { PayoutStrategy, Program, Round } from "../../generated/schema";
 import { RoundImplementation } from  "../../generated/templates";
 import {
   RoundImplementation as RoundImplementationContract
@@ -75,43 +75,24 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   const payoutStrategyAddress = roundContract.payoutStrategy().toHex();
   const payoutStrategy = PayoutStrategy.load(payoutStrategyAddress);
 
-  if (payoutStrategy) {
-    round.payoutStrategy = payoutStrategy.id;
-  } else {
-    // V0 where payoutStrategy was simply an address
-    round.payoutStrategyV0 = roundContract.payoutStrategy().toHex();
-  }
-
-  // link round to votingStrategy
-  const votingStrategyAddress = roundContract.votingStrategy().toHex();
-  const votingStrategy = VotingStrategy.load(votingStrategyAddress);
-  if (!votingStrategy) {
-    // avoid creating a round if votingStrategy does not exist
-    log.warning("--> handleRoundCreated {} : votingStrategy {} is null", [roundContractAddress.toHex(), votingStrategyAddress]);
+  if (!payoutStrategy) {
+    // avoid creating a round if payoutStrategy does not exist
+    log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
     return;
   }
-  round.votingStrategy = votingStrategy.id;
+
+  round.payoutStrategy = payoutStrategy.id;
+
+  round.votingStrategy = roundContract.votingStrategy().toHex();
 
   // set timestamp
   round.createdAt = event.block.timestamp;
   round.updatedAt = event.block.timestamp;
 
-  const version = roundContract.try_VERSION();
-
-  if (version.reverted) {
-    round.version = "0.1.0";
-    round.matchAmount = BigInt.fromI32(0);
-    round.roundFeePercentage = 0;
-    round.roundFeeAddress = "0x0";
-
-  } else {
-    round.version = version.value.toString();
-
-    // index variables introduced in v0.1.0
-    round.matchAmount = roundContract.matchAmount();
-    round.roundFeePercentage = roundContract.roundFeePercentage();
-    round.roundFeeAddress = roundContract.roundFeeAddress().toHex();
-  }
+  round.version = roundContract.VERSION();
+  round.matchAmount = roundContract.matchAmount();
+  round.roundFeePercentage = roundContract.roundFeePercentage();
+  round.roundFeeAddress = roundContract.roundFeeAddress().toHex();
 
 
   round.save();

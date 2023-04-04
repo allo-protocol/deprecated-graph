@@ -1,8 +1,7 @@
 {
   "network": "goerli",
-  "startBlock": 7835860,
-  "programFactoryAddress": "0x548c775c4Bd61d873a445ee4E769cf1A18d60eA9",
-  "QFVotingStrategyFactoryAddress": "0xF741F7B6a4cb3B4869B2e2C01aB70A12575B53Ab",
-  "roundFactoryAddress": "0x5770b7a57BD252FC4bB28c9a70C9572aE6400E48",
-  "merklePayoutStrategyFactoryAddress": "0xbb380eeef1d33e9b993cedbb77a6753eba0d2f9f"
+  "startBlock": 8730000,
+  "programFactoryAddress": "0x79Ba35cb31620db1b5b101A9A13A1b0A82B5BC9e",
+  "roundFactoryAddress": "0x24F9EBFAdf095e0afe3d98635ee83CD72e49B5B0",
+  "merklePayoutStrategyFactoryAddress": "0xE2Bf906f7d10F059cE65769F53fe50D8E0cC7cBe"
 }

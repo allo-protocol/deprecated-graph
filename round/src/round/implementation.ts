@@ -1,6 +1,6 @@
 import {
   NewProjectApplication as NewProjectApplicationEvent,
-  ProjectsMetaPtrUpdated as ProjectsMetaPtrUpdatedEvent,
+  ApplicationStatusesUpdated as ApplicationStatusesUpdatedEvent,
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent,
 } from "../../generated/templates/RoundImplementation/RoundImplementation";
@@ -10,18 +10,11 @@ import {
   Round,
   RoundAccount,
   RoundRole,
-  RoundProject,
+  RoundApplication,
 } from "../../generated/schema";
-import { fetchMetaPtrData, generateID, updateMetaPtr } from "../utils";
-import { JSONValueKind, log, store } from "@graphprotocol/graph-ts";
+import { generateID, updateMetaPtr } from "../utils";
+import { JSONValueKind, log, store, BigInt, Bytes} from "@graphprotocol/graph-ts";
 
-// @dev: Enum for different states a project application can be in
-// enum ProjectApplicationStatus = {
-//   PENDING   = "PENDING",
-//   APPROVED  = "APPROVED",
-//   REJECTED  = "REJECTED",
-//   APPEAL    = "APPEAL"
-// };
 
 /**
  * @dev Handles indexing on RoleGranted event.
@@ -85,7 +78,7 @@ export function handleRoleRevoked(event: RoleRevokedEvent): void {
   let account = RoundAccount.load(accountId);
   if (account) {
     store.remove("ProgramAccount", account.id);
-   
+
     // update timestamp
     round.updatedAt = event.block.timestamp;
     round.save();
@@ -94,9 +87,9 @@ export function handleRoleRevoked(event: RoleRevokedEvent): void {
 
 /**
  * Handles indexing on NewProjectApplicationEvent event.
- * - creates RoundProject entity
- * - links RoundProject to Round
- * - create MetaPtr entity and links to RoundProject
+ * - creates RoundApplication entity
+ * - links RoundApplication to Round
+ * - create MetaPtr entity and links to RoundApplication
  *
  * @param event NewProjectApplicationEvent
  */
@@ -104,13 +97,14 @@ export function handleNewProjectApplication(
   event: NewProjectApplicationEvent
 ): void {
   const _round = event.address.toHex();
-  const _project = event.params.project.toHex();
+  const _project = event.params.projectID.toHex();
+  const _appIndex = event.params.applicationIndex.toI32();
   const _metaPtr = event.params.applicationMetaPtr;
 
-  const projectId = [_project, _round].join("-");
+  const roundApplicationId = [_round, _appIndex.toString()].join("-");
 
-  // use projectId as metadataId
-  const metaPtrId = projectId;
+  // use roundApplicationId as metadataId
+  const metaPtrId = roundApplicationId;
 
   // load Round entity
   let round = Round.load(_round);
@@ -123,107 +117,68 @@ export function handleNewProjectApplication(
   metaPtr.pointer = _metaPtr[1].toString();
   metaPtr.save();
 
-  // create new RoundProject entity
-  let project = RoundProject.load(projectId);
-  project = project == null ? new RoundProject(projectId) : project;
+  // create new RoundApplication entity
+  let roundApplication = RoundApplication.load(roundApplicationId);
+  roundApplication = roundApplication == null ? new RoundApplication(roundApplicationId) : roundApplication;
 
-  //  RoundProject
-  project.project = _project.toString();
-  project.round = round.id;
-  project.metaPtr = metaPtr.id;
-  project.status = "PENDING";
+  //  RoundApplication
+  roundApplication.project = _project.toString();
+  roundApplication.round = round.id;
+  roundApplication.applicationIndex = _appIndex;
+  roundApplication.metaPtr = metaPtr.id;
+  roundApplication.status = 0; // 0 = pending
 
   // set timestamp
-  project.createdAt = event.block.timestamp;
-  project.updatedAt = event.block.timestamp;
+  roundApplication.createdAt = event.block.timestamp;
+  roundApplication.updatedAt = event.block.timestamp;
 
-  project.save();
+  roundApplication.save();
 }
 
 /**
- * Handles indexing on ProjectsMetaPtrUpdatedEvent event.
- *  - retrieve & parses object from metaPtr
- *  - updates projectsMetaPtr
- *  - gets list of projects on which a review decision has been made
- *  - load and update the status of that project entity
+ * Handles indexing on ApplicationStatusesUpdatedEvent event.
  *
- * @param event ProjectsMetaPtrUpdatedEvent
+ *
+ * @param event ApplicationStatusesUpdatedEvent
+ * 
+ * @notice Application status 
+ *  0 => PENDING
+ *  1 => APPROVED
+ *  2 => REJECTED
+ *  3 => CANCELLED
  */
-export function handleProjectsMetaPtrUpdated(
-  event: ProjectsMetaPtrUpdatedEvent
+
+export function handleApplicationStatusesUpdated(
+  event: ApplicationStatusesUpdatedEvent
 ): void {
+
+  const APPLICATIONS_PER_ROW = 128;
+
+  const rowIndex = event.params.index;
+  const applicationStatusesBitMap = event.params.status;
   const _round = event.address.toHex();
 
-  const _metaPtr = event.params.newMetaPtr;
+  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
-  const protocol = _metaPtr[0].toI32();
-  const pointer = _metaPtr[1].toString();
+  for (let i = 0; i <= APPLICATIONS_PER_ROW; i++) {
+    const currentApplicationIndex = startApplicationIndex + i;
 
-  // load Round entity
-  const round = Round.load(_round);
-  if (!round) return;
+    const status = applicationStatusesBitMap
+      .rightShift(u8(i * 2))
+      .bitAnd(new BigInt(3))
+      .toI32();
 
-  // set projectsMetaPtr
-  const projectsMetaPtrId = ["projectsMetaPtr", _round].join("-");
-  const projectsMetaPtr = updateMetaPtr(projectsMetaPtrId, protocol, pointer);
-  round.projectsMetaPtr = projectsMetaPtr.id;
-
-  round.save();
-
-  // fetch projectsMetaPtr content
-  const metaPtrData = fetchMetaPtrData(protocol, pointer);
-
-  if (!metaPtrData) {
-    log.warning("--> handleProjectsMetaPtrUpdated: metaPtrData is null {}", [
-      _round,
-    ]);
-    return;
-  }
-
-  const _projects = metaPtrData.toArray();
-
-  for (let i = 0; i < _projects.length; i++) {
-    // construct projectId
-    const _project = _projects[i].toObject();
-
-    const _id = _project.get("id");
-    if (!_id) continue;
-    const projectId = _id.toString().toLowerCase();
-
-    // load project entity
-    let project = RoundProject.load(projectId);
-
-    let isProjectUpdated = false;
-
-    // skip if project cannot be loaded
-    if (!project) continue;
-
-    // get status of project
-    let status = _project.get("status");
-
-    // get payout address of project
-    let payoutAddress = _project.get("payoutAddress");
-
-    if (
-      status &&
-      status.kind == JSONValueKind.STRING &&
-      status.toString() != project.status
-    ) {
-      // update project status
-      project.status = status.toString();
-      isProjectUpdated = true;
+    // load RoundApplication entity
+    const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
+    const roundApplication = RoundApplication.load(roundApplicationId);
+    if (roundApplication == null) {
+      continue;
     }
 
-    if (
-      payoutAddress &&
-      payoutAddress.kind == JSONValueKind.STRING &&
-      payoutAddress.toString() != project.payoutAddress
-    ) {
-      // update project payout address
-      project.payoutAddress = payoutAddress.toString();
-      isProjectUpdated = true;
-    }
-
-    if (isProjectUpdated) project.save();
+    // update status
+    roundApplication.status = status
+    roundApplication.save();
   }
+
+
 }
