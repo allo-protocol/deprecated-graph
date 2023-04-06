@@ -160,18 +160,32 @@ export function handleApplicationStatusesUpdated(
 
   const startApplicationIndex: i64 = APPLICATIONS_PER_ROW * rowIndex.toI64();
 
+  log.warning("--> applicationStatusesBitMap {} :", [applicationStatusesBitMap.toString()]);
+
   for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
+
+    log.warning("--> startApplicationIndex {} :", [startApplicationIndex.toString()]);
+
     const currentApplicationIndex = startApplicationIndex + i;
+
+    log.warning("--> rightShift {} :", [applicationStatusesBitMap.rightShift(u8(i * 2)).toString()]);
 
     const status = applicationStatusesBitMap
       .rightShift(u8(i * 2))
       .bitAnd(new BigInt(3))
       .toString();
 
+    log.warning("--> status {} :", [status.toString()]);
+
+
     // load RoundApplication entity
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
     const roundApplication = RoundApplication.load(roundApplicationId);
+
+    log.warning("--> roundApplicationId {} :", [roundApplicationId.toString()]);
     if (roundApplication == null) {
+      log.warning("--> roundApplication IS NULL", []);
+
       continue;
     }
 
