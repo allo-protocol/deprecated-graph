@@ -126,7 +126,7 @@ export function handleNewProjectApplication(
   roundApplication.round = round.id;
   roundApplication.applicationIndex = _appIndex;
   roundApplication.metaPtr = metaPtr.id;
-  roundApplication.status = 0; // 0 = pending
+  roundApplication.status = "0"; // 0 = pending
 
   // set timestamp
   roundApplication.createdAt = event.block.timestamp;
@@ -158,15 +158,15 @@ export function handleApplicationStatusesUpdated(
   const applicationStatusesBitMap = event.params.status;
   const _round = event.address.toHex();
 
-  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
+  const startApplicationIndex: i64 = APPLICATIONS_PER_ROW * rowIndex.toI64();
 
-  for (let i = 0; i <= APPLICATIONS_PER_ROW; i++) {
+  for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
     const currentApplicationIndex = startApplicationIndex + i;
 
     const status = applicationStatusesBitMap
       .rightShift(u8(i * 2))
       .bitAnd(new BigInt(3))
-      .toI32();
+      .toString();
 
     // load RoundApplication entity
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");

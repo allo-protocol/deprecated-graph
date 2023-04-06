@@ -91,7 +91,7 @@ type RoundApplication @entity {
   id: ID!
   project: String!
   applicationIndex: Int!
-  status: Int!
+  status: String!
   metaPtr: MetaPtr!
   round: Round!
   payoutAddress: String
