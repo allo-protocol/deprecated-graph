@@ -13,7 +13,7 @@ import {
   RoundApplication,
 } from "../../generated/schema";
 import { generateID, updateMetaPtr } from "../utils";
-import { JSONValueKind, log, store, BigInt, Bytes} from "@graphprotocol/graph-ts";
+import { JSONValueKind, log, store, BigInt, Bytes, bigInt} from "@graphprotocol/graph-ts";
 
 
 /**
@@ -126,7 +126,7 @@ export function handleNewProjectApplication(
   roundApplication.round = round.id;
   roundApplication.applicationIndex = _appIndex;
   roundApplication.metaPtr = metaPtr.id;
-  roundApplication.status = "0"; // 0 = pending
+  roundApplication.status = 0; // 0 = pending
 
   // set timestamp
   roundApplication.createdAt = event.block.timestamp;
@@ -140,8 +140,8 @@ export function handleNewProjectApplication(
  *
  *
  * @param event ApplicationStatusesUpdatedEvent
- * 
- * @notice Application status 
+ *
+ * @notice Application status
  *  0 => PENDING
  *  1 => APPROVED
  *  2 => REJECTED
@@ -158,41 +158,27 @@ export function handleApplicationStatusesUpdated(
   const applicationStatusesBitMap = event.params.status;
   const _round = event.address.toHex();
 
-  const startApplicationIndex: i64 = APPLICATIONS_PER_ROW * rowIndex.toI64();
-
-  log.warning("--> applicationStatusesBitMap {} :", [applicationStatusesBitMap.toString()]);
+  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
   for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
 
-    log.warning("--> startApplicationIndex {} :", [startApplicationIndex.toString()]);
-
     const currentApplicationIndex = startApplicationIndex + i;
-
-    log.warning("--> rightShift {} :", [applicationStatusesBitMap.rightShift(u8(i * 2)).toString()]);
 
     const status = applicationStatusesBitMap
       .rightShift(u8(i * 2))
-      .bitAnd(new BigInt(3))
-      .toString();
-
-    log.warning("--> status {} :", [status.toString()]);
-
+      .bitAnd(BigInt.fromI32(3))
+      .toI32();
 
     // load RoundApplication entity
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
     const roundApplication = RoundApplication.load(roundApplicationId);
 
-    log.warning("--> roundApplicationId {} :", [roundApplicationId.toString()]);
-    if (roundApplication == null) {
-      log.warning("--> roundApplication IS NULL", []);
-
-      continue;
+    if (roundApplication != null) {
+      // update status
+      roundApplication.status = status
+      roundApplication.save();
     }
 
-    // update status
-    roundApplication.status = status
-    roundApplication.save();
   }
-
 
 }
