@@ -13,7 +13,7 @@ import {
   RoundApplication,
 } from "../../generated/schema";
 import { generateID, updateMetaPtr } from "../utils";
-import { JSONValueKind, log, store, BigInt, Bytes} from "@graphprotocol/graph-ts";
+import { JSONValueKind, log, store, BigInt, Bytes, bigInt} from "@graphprotocol/graph-ts";
 
 
 /**
@@ -140,8 +140,8 @@ export function handleNewProjectApplication(
  *
  *
  * @param event ApplicationStatusesUpdatedEvent
- * 
- * @notice Application status 
+ *
+ * @notice Application status
  *  0 => PENDING
  *  1 => APPROVED
  *  2 => REJECTED
@@ -160,25 +160,25 @@ export function handleApplicationStatusesUpdated(
 
   const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
-  for (let i = 0; i <= APPLICATIONS_PER_ROW; i++) {
+  for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
+
     const currentApplicationIndex = startApplicationIndex + i;
 
     const status = applicationStatusesBitMap
       .rightShift(u8(i * 2))
-      .bitAnd(new BigInt(3))
+      .bitAnd(BigInt.fromI32(3))
       .toI32();
 
     // load RoundApplication entity
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
     const roundApplication = RoundApplication.load(roundApplicationId);
-    if (roundApplication == null) {
-      continue;
+
+    if (roundApplication != null) {
+      // update status
+      roundApplication.status = status
+      roundApplication.save();
     }
 
-    // update status
-    roundApplication.status = status
-    roundApplication.save();
   }
-
 
 }
