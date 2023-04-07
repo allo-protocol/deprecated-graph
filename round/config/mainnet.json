@@ -1,6 +1,7 @@
 {
     "network": "mainnet",
-    "startBlock": 16084200,
-    "programFactoryAddress": "0xe0281a20dFaCb0E179E6581c33542bC533DdC4AB",
-    "roundFactoryAddress": "0xE2Bf906f7d10F059cE65769F53fe50D8E0cC7cBe"
+    "startBlock": 16994410,
+    "programFactoryAddress": "0x56296242CA408bA36393f3981879fF9692F193cC",
+    "roundFactoryAddress": "0x9Cb7f434aD3250d1656854A9eC7A71EceC6eE1EF",
+    "merklePayoutStrategyFactoryAddress": "0x8F8d78f119Aa722453d33d6881f4D400D67D054F"
   }
