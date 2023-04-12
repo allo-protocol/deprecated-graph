@@ -74,6 +74,30 @@ dataSources:
           handler: handlePayoutContractCreated
       file: ./src/payoutStrategy/merkle/factory.ts
 
+  # AlloSettings
+  - kind: ethereum/contract
+    name: AlloSettings
+    network: {{ network }}
+    source:
+      address: '{{ alloSettingsAddress }}'
+      abi: AlloSettings
+      startBlock: {{ startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AlloSettings
+      abis:
+        - name: AlloSettings
+          file: ./abis/AlloSettings.json
+      eventHandlers:
+        - event: ProtocolFeePercentageUpdated(uint24)
+          handler: handleProtocolFeePercentageUpdated
+        - event: ProtocolTreasuryUpdated(address)
+          handler: handleProtocolTreasuryUpdated
+      file: ./src/settings/alloSettings.ts
+
 templates:
   # ProgramImplementation AccessControl
   - kind: ethereum/contract
