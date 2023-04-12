@@ -2,7 +2,7 @@ import { test, assert, newMockEvent , createMockedFunction, describe, beforeEach
 import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts";
 import { handleRoundCreated } from "../../src/round/factory";
 import { RoundCreated  as RoundCreatedEvent } from "../../generated/Round/RoundFactory";
-import { MetaPtr, PayoutStrategy, Program, Round, VotingStrategy } from "../../generated/schema";
+import { MetaPtr, PayoutStrategy, Program, Round } from "../../generated/schema";
 
 let roundContractAddress: Address;
 let roundImplementation: Address;
@@ -16,6 +16,9 @@ let applicationsEndTime: BigInt;
 let applicationsStartTime: BigInt;
 let roundStartTime: BigInt;
 let roundEndTime: BigInt;
+let matchAmount: BigInt;
+let roundFeePercentage: BigInt;
+let roundFeeAddress: Address;
 
 let protocol: BigInt;
 let roundPointer: string;
@@ -45,27 +48,26 @@ describe("handleRoundCreated", () => {
     roundImplementation = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2D");
     payoutStrategy = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2E");
     token = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2F");
-
+    
     applicationsStartTime = new BigInt(10);
     applicationsEndTime = new BigInt(20);
     roundStartTime = new BigInt(30);
     roundEndTime = new BigInt(40);
+    matchAmount = new BigInt(100);
+    roundFeeAddress = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2B");
+    roundFeePercentage = new BigInt(10000);
 
     protocol = new BigInt(1);
     roundPointer = "randomRoundIPFSHash";
     applicationPointer = "randomApplicationIPFSHash";
 
-    // Create VotingStrategy entity
-    let votingStrategyEntity = new VotingStrategy(votingStrategy.toHex());
-    votingStrategyEntity.strategyName = "LINEAR_QUADRATIC_FUNDING";
-    votingStrategyEntity.strategyAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eC2G";
-    votingStrategyEntity.version = "0.1.0";
-    votingStrategyEntity.save();
-
     // Create PayoutStrategy entity
     let payoutStrategyEntity = new PayoutStrategy(payoutStrategy.toHex());
     payoutStrategyEntity.strategyName = "MERKLE";
     payoutStrategyEntity.strategyAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eB1A";
+    payoutStrategyEntity.isReadyForPayout = false;
+    payoutStrategyEntity.createdAt = new BigInt(10);
+    payoutStrategyEntity.updatedAt = new BigInt(20);
     payoutStrategyEntity.version = "0.1.0";
     payoutStrategyEntity.save();
 
@@ -123,6 +125,27 @@ describe("handleRoundCreated", () => {
     ).returns([
       ethereum.Value.fromAddress(votingStrategy)
     ]);
+    createMockedFunction(
+      roundContractAddress, "matchAmount", "matchAmount():(uint256)"
+    ).returns([
+      ethereum.Value.fromUnsignedBigInt(matchAmount)
+    ]);
+    createMockedFunction(
+      roundContractAddress, "VERSION", "VERSION():(string)"
+    ).returns([
+      ethereum.Value.fromString("1.0.0")
+    ]);
+    createMockedFunction(
+      roundContractAddress, "roundFeePercentage", "roundFeePercentage():(uint32)"
+    ).returns([
+      ethereum.Value.fromUnsignedBigInt(roundFeePercentage)
+    ]);
+    createMockedFunction(
+      roundContractAddress, "roundFeeAddress", "roundFeeAddress():(address)"
+    ).returns([
+      ethereum.Value.fromAddress(roundFeeAddress)
+    ]);
+
 
     // mock roundMetaPtr
     createMockedFunction(
@@ -181,6 +204,7 @@ describe("handleRoundCreated", () => {
     assert.stringEquals(round!.applicationsEndTime, applicationsEndTime.toString());
     assert.stringEquals(round!.roundStartTime, roundStartTime.toString());
     assert.stringEquals(round!.roundEndTime, roundEndTime.toString());
+    assert.bigIntEquals(round!.matchAmount, matchAmount);
 
     // roundMetaPtr
     const roundMetaPtrEntity = MetaPtr.load(round!.roundMetaPtr);
@@ -205,9 +229,7 @@ describe("handleRoundCreated", () => {
     assert.stringEquals(payoutStrategyEntity!.id, payoutStrategy.toHex());
 
     // votingStrategy
-    const votingStrategyEntity = VotingStrategy.load(round!.votingStrategy);
-    assert.assertNotNull(votingStrategyEntity);
-    assert.stringEquals(votingStrategyEntity!.id, votingStrategy.toHex());
+    assert.stringEquals(round!.votingStrategy, votingStrategy.toHex());
 
     // // projectsMetaPtr
     assert.assertNull(round!.projectsMetaPtr);

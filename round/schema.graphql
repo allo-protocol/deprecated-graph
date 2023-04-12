@@ -9,6 +9,17 @@ type MetaPtr @entity {
   pointer: String
 }
 
+
+#######################
+# == Allo Settings == #
+#######################
+
+type AlloSettings @entity {
+  id: ID!
+  protocolFeePercentage: Int!
+  protocolTreasury: String!
+}
+
 ########################
 # ===== Program ===== #
 ########################

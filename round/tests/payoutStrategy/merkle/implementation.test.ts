@@ -2,7 +2,7 @@ import { test, assert, newMockEvent, describe, beforeEach, clearStore, afterEach
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts";
 import { handleFundsDistributed } from "../../../src/payoutStrategy/merkle/implementation";
 import { FundsDistributed as FundsDistributedEvent } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyImplementation";
-import { Payout, Round, PayoutStrategy, VotingStrategy } from "../../../generated/schema";
+import { Payout, Round, PayoutStrategy } from "../../../generated/schema";
 import { generateID } from "../../../src/utils";
 import { Bytes } from '@graphprotocol/graph-ts'
 
@@ -56,29 +56,26 @@ describe("handleFundsDistributed", () => {
     const payoutStrategyEntity = new PayoutStrategy(payoutStrategyAddress.toHex());
     payoutStrategyEntity.strategyName = "MERKLE";
     payoutStrategyEntity.strategyAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eC2G";
+    payoutStrategyEntity.isReadyForPayout = false;
+    payoutStrategyEntity.createdAt = new BigInt(50);
+    payoutStrategyEntity.updatedAt = new BigInt(60);
     payoutStrategyEntity.version = "0.2.0";
     payoutStrategyEntity.save();
-
-
-    // Create VotingStrategy entity
-    let votingStrategy = Address.fromString("0xB16081F360e3847006dB660bae1c6d1b2e17eC2C");
-    let votingStrategyEntity = new VotingStrategy(votingStrategy.toHex());
-    votingStrategyEntity.strategyName = "LINEAR_QUADRATIC_FUNDING";
-    votingStrategyEntity.strategyAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eC2G";
-    votingStrategyEntity.version = "0.1.0";
-    votingStrategyEntity.save();
 
 
     // Create Round entity
     const roundEntity = new Round(roundAddress.toHex());
     roundEntity.program = "0xB16081F360e3847006dB660bae1c6d1b2e17eC2B";
-    roundEntity.votingStrategy = votingStrategyEntity.id;
+    roundEntity.votingStrategy = "0xB16081F360e3847006dB660bae1c6d1b2e17eC2C";
     roundEntity.payoutStrategy = payoutStrategyEntity.id;
     roundEntity.applicationsStartTime = new BigInt(10).toString();
     roundEntity.applicationsEndTime = new BigInt(20).toString();
     roundEntity.roundStartTime = new BigInt(30).toString();
     roundEntity.roundEndTime = new BigInt(40).toString();
     roundEntity.token = "0xB16081F360e3847006dB660bae1c6d1b2e17eC2D";
+    roundEntity.matchAmount = new BigInt(100);
+    roundEntity.roundFeePercentage = new BigInt(10000);
+    roundEntity.roundFeeAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eC2B";
     roundEntity.roundMetaPtr = "roundMetaPtr";
     roundEntity.applicationMetaPtr = "applicationMetaPtr";
     roundEntity.createdAt = new BigInt(50);
