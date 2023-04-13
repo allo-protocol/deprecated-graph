@@ -91,7 +91,7 @@ describe("handleProtocolTreasuryUpdated", () => {
     const alloSettings = AlloSettings.load("1");
     assert.assertNotNull(alloSettings);
 
-    assert.stringEquals(protocolTreasury.toHexString(), alloSettings!.protocolTreasury);
+    assert.stringEquals(protocolTreasury.toHexString(), alloSettings!.protocolTreasury!);
   });
 
   test("ProtocolTreasuryUpdated event is indexed with latest", () => {
@@ -101,11 +101,11 @@ describe("handleProtocolTreasuryUpdated", () => {
     let alloSettings = AlloSettings.load("1");
     assert.assertNotNull(alloSettings);
 
-    assert.stringEquals(protocolTreasury.toHexString(), alloSettings!.protocolTreasury);
+    assert.stringEquals(protocolTreasury.toHexString(), alloSettings!.protocolTreasury!);
 
     const newProtocolTreasury = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2E");
     handleProtocolTreasuryUpdated(createNewProtocolTreasuryUpdated(newProtocolTreasury));
     alloSettings = AlloSettings.load("1");
-    assert.stringEquals(newProtocolTreasury.toHexString(), alloSettings!.protocolTreasury);
+    assert.stringEquals(newProtocolTreasury.toHexString(), alloSettings!.protocolTreasury!);
   });
 });
