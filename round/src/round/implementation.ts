@@ -282,6 +282,28 @@ export function handleRoundMetaPtrUpdated(
   event: RoundMetaPtrUpdated
 ): void {
 
+  const newRoundMetaPtr = event.params.newMetaPtr;
+  const _round = event.address.toHex();
+  const roundMetaPtrId = ['roundMetaPtr', _round].join('-');
+
+  // update round MetaPtr entity
+  let metaPtr = updateMetaPtr(
+    roundMetaPtrId,
+    newRoundMetaPtr.protocol.toI32(),
+    newRoundMetaPtr.pointer.toString()
+  );
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundMetaPtr
+  round.roundMetaPtr = metaPtr.id;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
