@@ -145,6 +145,24 @@ templates:
           handler: handleNewProjectApplication
         - event: ApplicationStatusesUpdated(indexed uint256,indexed uint256)
           handler: handleApplicationStatusesUpdated
+        - event: MatchAmountUpdated(uint256)
+          handler: handleMatchAmountUpdated
+        - event: RoundFeePercentageUpdated(uint32)
+          handler: handleRoundFeePercentageUpdated
+        - event: RoundFeeAddressUpdated(address)
+          handler: handleRoundFeeAddressUpdated
+        - event: RoundMetaPtrUpdated((uint256,string),(uint256,string))
+          handler: handleRoundMetaPtrUpdated
+        - event: ApplicationMetaPtrUpdated((uint256,string),(uint256,string))
+          handler: handleApplicationMetaPtrUpdated
+        - event: ApplicationsStartTimeUpdated(uint256,uint256)
+          handler: handleApplicationsStartTimeUpdated
+        - event: ApplicationsEndTimeUpdated(uint256,uint256)
+          handler: handleApplicationsEndTimeUpdated
+        - event: RoundStartTimeUpdated(uint256,uint256)
+          handler: handleRoundStartTimeUpdated
+        - event: RoundEndTimeUpdated(uint256,uint256)
+          handler: handleRoundEndTimeUpdated
       file: ./src/round/implementation.ts
 
   # MerklePayoutStrategyImplementation

@@ -3,6 +3,15 @@ import {
   ApplicationStatusesUpdated as ApplicationStatusesUpdatedEvent,
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent,
+  MatchAmountUpdated,
+  RoundFeePercentageUpdated,
+  RoundFeeAddressUpdated,
+  RoundMetaPtrUpdated,
+  ApplicationMetaPtrUpdated,
+  ApplicationsStartTimeUpdated,
+  ApplicationsEndTimeUpdated,
+  RoundStartTimeUpdated,
+  RoundEndTimeUpdated,
 } from "../../generated/templates/RoundImplementation/RoundImplementation";
 
 import {
@@ -182,5 +191,256 @@ export function handleApplicationStatusesUpdated(
     }
 
   }
+
+}
+
+
+/**
+ * Handles indexing on MatchAmountUpdated event.
+ * @param event MatchAmountUpdated
+ */
+
+export function handleMatchAmountUpdated(
+  event: MatchAmountUpdated
+): void {
+
+  const newMatchAmount = event.params.newAmount;
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update matchAmount
+  round.matchAmount = newMatchAmount;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on RoundFeePercentageUpdated event.
+ * @param event RoundFeePercentageUpdated
+ */
+
+export function handleRoundFeePercentageUpdated(
+  event: RoundFeePercentageUpdated
+): void {
+
+  const newFeePercentage = event.params.roundFeePercentage;
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundFeePercentage
+  round.roundFeePercentage = newFeePercentage;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on RoundFeeAddressUpdated event.
+ * @param event RoundFeeAddressUpdated
+ */
+
+export function handleRoundFeeAddressUpdated(
+  event: RoundFeeAddressUpdated
+): void {
+
+  const newFeeAddress = event.params.roundFeeAddress.toHex();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundFeeAddress
+  round.roundFeeAddress = newFeeAddress;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on RoundMetaPtrUpdated event.
+ * @param event RoundMetaPtrUpdated
+ */
+
+export function handleRoundMetaPtrUpdated(
+  event: RoundMetaPtrUpdated
+): void {
+
+  const newRoundMetaPtr = event.params.newMetaPtr;
+  const _round = event.address.toHex();
+  const roundMetaPtrId = ['roundMetaPtr', _round].join('-');
+
+  // update round MetaPtr entity
+  let metaPtr = updateMetaPtr(
+    roundMetaPtrId,
+    newRoundMetaPtr.protocol.toI32(),
+    newRoundMetaPtr.pointer.toString()
+  );
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundMetaPtr
+  round.roundMetaPtr = metaPtr.id;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on ApplicationMetaPtrUpdated event.
+ * @param event ApplicationMetaPtrUpdated
+ */
+
+export function handleApplicationMetaPtrUpdated(
+  event: ApplicationMetaPtrUpdated
+): void {
+
+  const newApplicationMetaPtr = event.params.newMetaPtr;
+  const _round = event.address.toHex();
+  const applicationMetaPtrId = ['applicationsMetaPtr', _round].join('-');
+
+  // update MetaPtr entity
+  let metaPtr = updateMetaPtr(
+    applicationMetaPtrId,
+    newApplicationMetaPtr.protocol.toI32(),
+    newApplicationMetaPtr.pointer.toString()
+  );
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundMetaPtr
+  round.applicationMetaPtr = metaPtr.id;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on ApplicationsStartTimeUpdated event.
+ * @param event ApplicationsStartTimeUpdated
+ */
+
+export function handleApplicationsStartTimeUpdated(
+  event: ApplicationsStartTimeUpdated
+): void {
+
+  const newApplicationStartTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update applicationsStartTime
+  round.applicationsStartTime = newApplicationStartTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on ApplicationsEndTimeUpdated event.
+ * @param event ApplicationsEndTimeUpdated
+ */
+
+export function handleApplicationsEndTimeUpdated(
+  event: ApplicationsEndTimeUpdated
+): void {
+
+  const newApplicationEndTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update applicationsEndTime
+  round.applicationsEndTime = newApplicationEndTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on RoundStartTimeUpdated event.
+ * @param event RoundStartTimeUpdated
+ */
+
+export function handleRoundStartTimeUpdated(
+  event: RoundStartTimeUpdated
+): void {
+
+  const newRoundStartTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundStartTime
+  round.roundStartTime = newRoundStartTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
+
+}
+
+/**
+ * Handles indexing on RoundEndTimeUpdated event.
+ * @param event RoundEndTimeUpdated
+ */
+
+export function handleRoundEndTimeUpdated(
+  event: RoundEndTimeUpdated
+): void {
+
+  const newRoundEndTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundEndTime
+  round.roundEndTime = newRoundEndTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
