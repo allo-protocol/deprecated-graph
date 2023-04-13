@@ -224,7 +224,7 @@ describe("handleRoundCreated", () => {
     assert.stringEquals(programEntity!.id, program.toHex());
 
     // payoutStrategys
-    const payoutStrategyEntity = PayoutStrategy.load(round!.payoutStrategy!);
+    const payoutStrategyEntity = PayoutStrategy.load(round!.payoutStrategy);
     assert.assertNotNull(payoutStrategyEntity);
     assert.stringEquals(payoutStrategyEntity!.id, payoutStrategy.toHex());
 

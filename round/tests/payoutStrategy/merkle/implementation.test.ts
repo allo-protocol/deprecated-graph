@@ -85,7 +85,7 @@ describe("handleFundsDistributed", () => {
     roundEntity.save();
 
     // Link PayoutStrategy to Round entity
-    payoutStrategyEntity.round = roundEntity.id;
+    payoutStrategyEntity.round = roundAddress.toHex();
     payoutStrategyEntity.save();
 
     newFundsDistributedEvent = createNewFundsDistributedEvent(

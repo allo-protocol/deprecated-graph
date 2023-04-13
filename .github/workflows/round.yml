@@ -13,32 +13,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
-          fetch-depth: 1
+          submodules: recursive
 
-      - uses: pnpm/action-setup@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
         with:
-          version: 7
+          node-version: 16.x
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'pnpm'
+      - name: Install Yarn
+        run: npm install -g yarn
+      - run: yarn
+      - run: |
+          yarn install
+          cd round
+          yarn install
+          yarn add @graphprotocol/graph-cli
 
-      - name: Install Dependencies for Round
+      - name: Prepare subgraph yaml
         run: |
           cd round
-          pnpm install
+          yarn prepare:goerli
 
-      # - name: Setup
-      #   run: |
-      #     cd round
-      #     yarn add @graphprotocol/graph-cli
-      #     # yarn prepare:goerli
-      #     # yarn codegen
+      - name: Generate code
+        run: |
+          cd round
+          yarn codegen
 
-      # - name: Test
-      #   run: |
-      #     cd round
-      #     yarn test
+      - name: Run tests
+        run: |
+          cd round
+          yarn test
+
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
