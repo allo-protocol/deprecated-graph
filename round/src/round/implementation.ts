@@ -350,6 +350,20 @@ export function handleApplicationsStartTimeUpdated(
   event: ApplicationsStartTimeUpdated
 ): void {
 
+  const newApplicationStartTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update applicationsStartTime
+  round.applicationsStartTime = newApplicationStartTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
@@ -362,6 +376,20 @@ export function handleApplicationsEndTimeUpdated(
   event: ApplicationsEndTimeUpdated
 ): void {
 
+  const newApplicationEndTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update applicationsEndTime
+  round.applicationsEndTime = newApplicationEndTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
@@ -374,6 +402,20 @@ export function handleRoundStartTimeUpdated(
   event: RoundStartTimeUpdated
 ): void {
 
+  const newRoundStartTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundStartTime
+  round.roundStartTime = newRoundStartTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
@@ -386,5 +428,19 @@ export function handleRoundEndTimeUpdated(
   event: RoundEndTimeUpdated
 ): void {
 
+  const newRoundEndTime = event.params.newTime.toString();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundEndTime
+  round.roundEndTime = newRoundEndTime;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
