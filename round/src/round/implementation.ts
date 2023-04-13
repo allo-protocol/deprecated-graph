@@ -316,6 +316,28 @@ export function handleApplicationMetaPtrUpdated(
   event: ApplicationMetaPtrUpdated
 ): void {
 
+  const newApplicationMetaPtr = event.params.newMetaPtr;
+  const _round = event.address.toHex();
+  const applicationMetaPtrId = ['applicationsMetaPtr', _round].join('-');
+
+  // update MetaPtr entity
+  let metaPtr = updateMetaPtr(
+    applicationMetaPtrId,
+    newApplicationMetaPtr.protocol.toI32(),
+    newApplicationMetaPtr.pointer.toString()
+  );
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundMetaPtr
+  round.applicationMetaPtr = metaPtr.id;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
