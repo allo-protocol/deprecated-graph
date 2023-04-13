@@ -107,7 +107,7 @@ describe("handleFundsDistributed", () => {
 
     const id = generateID([
       newFundsDistributedEvent.transaction.hash.toHex(),
-      projectId.toHex()
+      projectId.toString()
     ]);
     newFundsDistributedEvent.transaction.hash.toHex();
     const payout = Payout.load(id);
@@ -123,7 +123,7 @@ describe("handleFundsDistributed", () => {
 
     const id = generateID([
       newFundsDistributedEvent.transaction.hash.toHex(),
-      projectId.toHex()
+      projectId.toString()
     ]);
     const payout = Payout.load(id);
 
@@ -142,7 +142,7 @@ describe("handleFundsDistributed", () => {
 
     const id = generateID([
       newFundsDistributedEvent.transaction.hash.toHex(),
-      projectId.toHex()
+      projectId.toString()
     ]);
     const payout = Payout.load(id);
     const payoutStrategy = PayoutStrategy.load(payout!.payoutStrategy);
@@ -167,13 +167,13 @@ describe("handleFundsDistributed", () => {
 
     const id = generateID([
       newFundsDistributedEvent.transaction.hash.toHex(),
-      projectId.toHex()
+      projectId.toString()
     ]);
     assert.assertNotNull(Payout.load(id));
 
     const anotherId = generateID([
       newFundsDistributedEvent.transaction.hash.toHex(),
-      anotherProjectId.toHex()
+      anotherProjectId.toString()
     ]);
     assert.assertNotNull(Payout.load(anotherId));
   });
