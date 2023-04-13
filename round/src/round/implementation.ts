@@ -3,6 +3,15 @@ import {
   ApplicationStatusesUpdated as ApplicationStatusesUpdatedEvent,
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent,
+  MatchAmountUpdated,
+  RoundFeePercentageUpdated,
+  RoundFeeAddressUpdated,
+  RoundMetaPtrUpdated,
+  ApplicationMetaPtrUpdated,
+  ApplicationsStartTimeUpdated,
+  ApplicationsEndTimeUpdated,
+  RoundStartTimeUpdated,
+  RoundEndTimeUpdated,
 } from "../../generated/templates/RoundImplementation/RoundImplementation";
 
 import {
@@ -182,5 +191,114 @@ export function handleApplicationStatusesUpdated(
     }
 
   }
+
+}
+
+
+/**
+ * Handles indexing on MatchAmountUpdated event.
+ * @param event MatchAmountUpdated
+ */
+
+export function handleMatchAmountUpdated(
+  event: MatchAmountUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on RoundFeePercentageUpdated event.
+ * @param event RoundFeePercentageUpdated
+ */
+
+export function handleRoundFeePercentageUpdated(
+  event: RoundFeePercentageUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on RoundFeeAddressUpdated event.
+ * @param event RoundFeeAddressUpdated
+ */
+
+export function handleRoundFeeAddressUpdated(
+  event: RoundFeeAddressUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on RoundMetaPtrUpdated event.
+ * @param event RoundMetaPtrUpdated
+ */
+
+export function handleRoundMetaPtrUpdated(
+  event: RoundMetaPtrUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on ApplicationMetaPtrUpdated event.
+ * @param event ApplicationMetaPtrUpdated
+ */
+
+export function handleApplicationMetaPtrUpdated(
+  event: ApplicationMetaPtrUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on ApplicationsStartTimeUpdated event.
+ * @param event ApplicationsStartTimeUpdated
+ */
+
+export function handleApplicationsStartTimeUpdated(
+  event: ApplicationsStartTimeUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on ApplicationsEndTimeUpdated event.
+ * @param event ApplicationsEndTimeUpdated
+ */
+
+export function handleApplicationsEndTimeUpdated(
+  event: ApplicationsEndTimeUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on RoundStartTimeUpdated event.
+ * @param event RoundStartTimeUpdated
+ */
+
+export function handleRoundStartTimeUpdated(
+  event: RoundStartTimeUpdated
+): void {
+
+
+}
+
+/**
+ * Handles indexing on RoundEndTimeUpdated event.
+ * @param event RoundEndTimeUpdated
+ */
+
+export function handleRoundEndTimeUpdated(
+  event: RoundEndTimeUpdated
+): void {
+
 
 }
