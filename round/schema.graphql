@@ -16,8 +16,8 @@ type MetaPtr @entity {
 
 type AlloSettings @entity {
   id: ID!
-  protocolFeePercentage: Int!
-  protocolTreasury: String!
+  protocolFeePercentage: Int
+  protocolTreasury: String
 }
 
 ########################

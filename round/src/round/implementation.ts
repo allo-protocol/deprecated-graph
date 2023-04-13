@@ -128,7 +128,7 @@ export function handleNewProjectApplication(
   roundApplication.applicationIndex = _appIndex;
   roundApplication.metaPtr = metaPtr.id;
   roundApplication.status = 0; // 0 = pending
-  roundApplication.sender = _sender.toString();
+  roundApplication.sender = _sender.toHexString();
 
   // set timestamp
   roundApplication.createdAt = event.block.timestamp;
