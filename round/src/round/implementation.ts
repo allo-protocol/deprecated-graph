@@ -204,6 +204,20 @@ export function handleMatchAmountUpdated(
   event: MatchAmountUpdated
 ): void {
 
+  const newMatchAmount = event.params.newAmount;
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update matchAmount
+  round.matchAmount = newMatchAmount;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
