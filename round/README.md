@@ -1,6 +1,6 @@
 # graph
 
-This package holds the subgraph which indexs data with regard the
+This package holds the subgraph which indexes data with regard the
 - ProgramFactory
 - ProgramImplementation
 - RoundFactory

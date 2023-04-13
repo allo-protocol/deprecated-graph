@@ -106,6 +106,7 @@ type RoundApplication @entity {
   metaPtr: MetaPtr!
   round: Round!
   payoutAddress: String
+  sender: String!
   createdAt: BigInt!
   updatedAt: BigInt!
 }
