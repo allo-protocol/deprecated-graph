@@ -256,6 +256,20 @@ export function handleRoundFeeAddressUpdated(
   event: RoundFeeAddressUpdated
 ): void {
 
+  const newFeeAddress = event.params.roundFeeAddress.toHex();
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundFeeAddress
+  round.roundFeeAddress = newFeeAddress;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
