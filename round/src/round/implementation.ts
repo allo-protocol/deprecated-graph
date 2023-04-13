@@ -230,6 +230,20 @@ export function handleRoundFeePercentageUpdated(
   event: RoundFeePercentageUpdated
 ): void {
 
+  const newFeePercentage = event.params.roundFeePercentage;
+  const _round = event.address.toHex();
+
+  // load Round entity
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
+
+  // update roundFeePercentage
+  round.roundFeePercentage = newFeePercentage;
+
+  // update timestamp
+  round.updatedAt = event.block.timestamp;
+
+  round.save();
 
 }
 
