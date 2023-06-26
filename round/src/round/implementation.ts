@@ -21,8 +21,8 @@ import {
   RoundRole,
   RoundApplication,
 } from "../../generated/schema";
-import { generateID, updateMetaPtr } from "../utils";
-import { JSONValueKind, log, store, BigInt, Bytes, bigInt} from "@graphprotocol/graph-ts";
+import { createStatusSnapshot, generateID, updateMetaPtr } from "../utils";
+import { store, BigInt } from "@graphprotocol/graph-ts";
 
 
 /**
@@ -144,6 +144,8 @@ export function handleNewProjectApplication(
   roundApplication.updatedAt = event.block.timestamp;
 
   roundApplication.save();
+
+  createStatusSnapshot(roundApplication, 0, event);
 }
 
 /**
@@ -162,34 +164,67 @@ export function handleNewProjectApplication(
 export function handleApplicationStatusesUpdated(
   event: ApplicationStatusesUpdatedEvent
 ): void {
-
-  const APPLICATIONS_PER_ROW = 128;
-
-  const rowIndex = event.params.index;
-  const applicationStatusesBitMap = event.params.status;
   const _round = event.address.toHex();
+  // round
+  let round = Round.load(_round);
+  round = round == null ? new Round(_round) : round;
 
-  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
+  if (round.version == '1.1.0') {
+    const APPLICATIONS_PER_ROW = 64;
 
-  for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
+    const rowIndex = event.params.index;
+    const applicationStatusesBitMap = event.params.status;
 
-    const currentApplicationIndex = startApplicationIndex + i;
+    const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
-    const status = applicationStatusesBitMap
-      .rightShift(u8(i * 2))
-      .bitAnd(BigInt.fromI32(3))
-      .toI32();
+    for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
 
-    // load RoundApplication entity
-    const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
-    const roundApplication = RoundApplication.load(roundApplicationId);
+      const currentApplicationIndex = startApplicationIndex + i;
 
-    if (roundApplication != null) {
-      // update status
-      roundApplication.status = status
-      roundApplication.save();
+      const status = applicationStatusesBitMap
+        .rightShift(u8(i * 4))
+        .bitAnd(BigInt.fromI32(15))
+        .toI32();
+
+      // load RoundApplication entity
+      const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
+      const roundApplication = RoundApplication.load(roundApplicationId);
+
+      if (roundApplication != null) {
+        // update status
+        roundApplication.status = status
+        roundApplication.save();
+        if (roundApplication.status != status) createStatusSnapshot(roundApplication, status, event);
+      }
     }
+  } else {
+    const APPLICATIONS_PER_ROW = 128;
 
+    const rowIndex = event.params.index;
+    const applicationStatusesBitMap = event.params.status;
+
+    const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
+
+    for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
+
+      const currentApplicationIndex = startApplicationIndex + i;
+
+      const status = applicationStatusesBitMap
+        .rightShift(u8(i * 2))
+        .bitAnd(BigInt.fromI32(3))
+        .toI32();
+
+      // load RoundApplication entity
+      const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
+      const roundApplication = RoundApplication.load(roundApplicationId);
+
+      if (roundApplication != null) {
+        // update status
+        roundApplication.status = status
+        roundApplication.save();
+        if (roundApplication.status != status) createStatusSnapshot(roundApplication, status, event);
+      }
+    }
   }
 
 }

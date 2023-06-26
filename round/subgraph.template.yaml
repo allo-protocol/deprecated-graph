@@ -45,6 +45,8 @@ dataSources:
           file: ./abis/RoundFactory.json
         - name: RoundImplementation
           file: ./abis/RoundImplementation.json
+        - name: AlloSettings
+          file: ./abis/AlloSettings.json
       eventHandlers:
         - event: RoundCreated(indexed address,indexed address,indexed address)
           handler: handleRoundCreated
@@ -63,7 +65,7 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - PayoutStrategy
+        - MerklePayout
       abis:
         - name: MerklePayoutStrategyFactory
           file: ./abis/MerklePayoutStrategyFactory.json
@@ -73,6 +75,30 @@ dataSources:
         - event: PayoutContractCreated(indexed address,indexed address)
           handler: handlePayoutContractCreated
       file: ./src/payoutStrategy/merkle/factory.ts
+
+  # DirectPayoutStrategyFactory
+  - kind: ethereum/contract
+    name: DirectPayoutStrategyFactory
+    network: {{ network }}
+    source:
+      address: '{{ directPayoutStrategyFactoryAddress }}'
+      abi: DirectPayoutStrategyFactory
+      startBlock: {{ startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DirectPayout
+      abis:
+        - name: DirectPayoutStrategyFactory
+          file: ./abis/DirectPayoutStrategyFactory.json
+        - name: DirectPayoutStrategyImplementation
+          file: ./abis/DirectPayoutStrategyImplementation.json
+      eventHandlers:
+        - event: PayoutContractCreated(indexed address,indexed address)
+          handler: handlePayoutContractCreated
+      file: ./src/payoutStrategy/direct/factory.ts
 
   # AlloSettings
   - kind: ethereum/contract
@@ -87,7 +113,7 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - AlloSettings
+        - AlloSetting
       abis:
         - name: AlloSettings
           file: ./abis/AlloSettings.json
@@ -192,3 +218,29 @@ templates:
           receipt: true
 
       file: ./src/payoutStrategy/merkle/implementation.ts
+
+  - kind: ethereum/contract
+    name: DirectPayoutStrategyImplementation
+    network: {{ network }}
+    source:
+      abi: DirectPayoutStrategyImplementation
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Payout
+      abis:
+        - name: DirectPayoutStrategyImplementation
+          file: ./abis/DirectPayoutStrategyImplementation.json
+      eventHandlers:
+        - event: RoundFeePercentageUpdated(uint32)
+          handler: handleRoundFeePercentageUpdated
+          receipt: true
+        - event: RoundFeeAddressUpdated(address)
+          handler: handleRoundFeeAddressUpdated
+          receipt: true
+        - event: PayoutMade(indexed address,address,uint256,address,indexed bytes32,indexed uint256,address)
+          handler: handlePayoutMade
+          receipt: true
+      file: ./src/payoutStrategy/direct/implementation.ts

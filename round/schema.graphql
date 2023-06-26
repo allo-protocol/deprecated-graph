@@ -14,7 +14,7 @@ type MetaPtr @entity {
 # == Allo Settings == #
 #######################
 
-type AlloSettings @entity {
+type AlloSetting @entity {
   id: ID!
   protocolFeePercentage: Int
   protocolTreasury: String
@@ -109,6 +109,15 @@ type RoundApplication @entity {
   sender: String!
   createdAt: BigInt!
   updatedAt: BigInt!
+  statusSnapshots: [StatusSnapshot!] @derivedFrom(field: "application")
+}
+
+# id: round.toHex()-applicationIndex.toString()-status
+type StatusSnapshot @entity {
+  id:ID!
+  application: RoundApplication!
+  status: Int!
+  timestamp: BigInt!
 }
 
 ######################
@@ -116,17 +125,51 @@ type RoundApplication @entity {
 ######################
 
 # id = payoutContractAddress.toHex()
-type PayoutStrategy @entity {
+interface PayoutStrategy {
   id: ID!
   strategyName: String!
   strategyAddress: String!
+  strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
-  isReadyForPayout: Boolean!
-  distributionMetaPtr: MetaPtr # id = "distributionMetaPtr-{payoutContractAddress.toHex()}"
   version: String!
   createdAt: BigInt!
   updatedAt: BigInt!
+}
+
+
+# id = payoutContractAddress.toHex()
+type MerklePayout implements PayoutStrategy @entity {
+  id: ID!
+  strategyName: String!
+  strategyAddress: String!
+  strategyImplementationAddress: String!
+  round: Round @derivedFrom(field: "payoutStrategy")
+  payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
+  version: String!
+  createdAt: BigInt!
+  updatedAt: BigInt!
+
+  isReadyForPayout: Boolean!
+  distributionMetaPtr: MetaPtr # id = "distributionMetaPtr-{payoutContractAddress.toHex()}"
+}
+
+# id = payoutContractAddress.toHex()
+type DirectPayout implements PayoutStrategy @entity {
+  id: ID!
+  strategyName: String!
+  strategyAddress: String!
+  strategyImplementationAddress: String!
+  round: Round @derivedFrom(field: "payoutStrategy")
+  payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
+  version: String!
+  createdAt: BigInt!
+  updatedAt: BigInt!
+
+  vaultAddress: String!
+  alloSetting: AlloSetting!
+  roundFeePercentage: BigInt!
+  roundFeeAddress: String!
 }
 
 # id = keccak256(event.receipt.transactionHash.toHex(), Payout.projectId)
@@ -141,4 +184,7 @@ type Payout @entity {
   projectId: String!
   txnHash: String!
   # round: Round!
+  vault: String
+  applicationIndex: Int
+  allowanceModule: String
 }

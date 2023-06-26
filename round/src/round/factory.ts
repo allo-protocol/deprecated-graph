@@ -2,7 +2,7 @@ import {
   RoundCreated as RoundCreatedEvent
 } from "../../generated/Round/RoundFactory"
 
-import { PayoutStrategy, Program, Round } from "../../generated/schema";
+import { Program, Round } from "../../generated/schema";
 import { RoundImplementation } from  "../../generated/templates";
 import {
   RoundImplementation as RoundImplementationContract
@@ -72,16 +72,16 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   round.program = program.id;
 
   // link round to payoutStrategy
-  const payoutStrategyAddress = roundContract.payoutStrategy().toHex();
-  const payoutStrategy = PayoutStrategy.load(payoutStrategyAddress);
+  // const payoutStrategyAddress = roundContract.payoutStrategy().toHex();
+  // const payoutStrategy = PayoutStrategy.load(payoutStrategyAddress);
 
-  if (!payoutStrategy) {
-    // avoid creating a round if payoutStrategy does not exist
-    log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
-    return;
-  }
+  // if (!payoutStrategy) {
+  //   // avoid creating a round if payoutStrategy does not exist
+  //   log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
+  //   return;
+  // }
 
-  round.payoutStrategy = payoutStrategy.id;
+  round.payoutStrategy = roundContract.payoutStrategy().toHex();
 
   round.votingStrategy = roundContract.votingStrategy().toHex();
 

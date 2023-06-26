@@ -4,7 +4,7 @@ import {
   DistributionUpdated as DistributionUpdatedEvent,
   ReadyForPayout as ReadyForPayoutEvent
 } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyImplementation";
-import { PayoutStrategy, Payout, MetaPtr } from "../../../generated/schema";
+import { MerklePayout, Payout, MetaPtr } from "../../../generated/schema";
 import { generateID, updateMetaPtr } from "../../utils";
 
 const VERSION = "0.1.0";
@@ -18,7 +18,7 @@ export function handleDistributionUpdated(event: DistributionUpdatedEvent): void
 
   // load payout strategy contract
   const payoutStrategyAddress = event.address;
-  let payoutStrategy = PayoutStrategy.load(payoutStrategyAddress.toHex());
+  let payoutStrategy = MerklePayout.load(payoutStrategyAddress.toHex());
 
   if (!payoutStrategy) {
     log.warning("--> handleDistributionUpdated {} {}: payoutStrategy is null", [
@@ -52,7 +52,7 @@ export function handleDistributionUpdated(event: DistributionUpdatedEvent): void
 export function handleReadyForPayout(event: ReadyForPayoutEvent): void {
   // load payout strategy contract
   const payoutStrategyAddress = event.address;
-  let payoutStrategy = PayoutStrategy.load(payoutStrategyAddress.toHex());
+  let payoutStrategy = MerklePayout.load(payoutStrategyAddress.toHex());
 
   if (!payoutStrategy) {
     log.warning("--> handleSetReadyForPayout {} {}: payoutStrategy is null", [
@@ -77,7 +77,7 @@ export function handleFundsDistributed(event: FundsDistributedEvent): void {
 
   // load payout strategy contract
   const payoutStrategyAddress = event.address;
-  let payoutStrategy = PayoutStrategy.load(payoutStrategyAddress.toHex());
+  let payoutStrategy = MerklePayout.load(payoutStrategyAddress.toHex());
 
   if (!payoutStrategy) {
     log.warning("--> handleFundsDistributed {} {}: payoutStrategy is null", [

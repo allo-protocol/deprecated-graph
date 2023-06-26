@@ -1,8 +1,8 @@
-import { PayoutContractCreated as PayoutContractCreatedEvent } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyFactory";
-import { MerklePayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
+import { PayoutContractCreated as PayoutContractCreatedEvent } from "../../../generated/DirectPayoutStrategyFactory/DirectPayoutStrategyFactory";
+import { DirectPayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
 
 
-import { MerklePayout } from "../../../generated/schema";
+import { DirectPayout } from "../../../generated/schema";
 import { log } from "@graphprotocol/graph-ts";
 
 const VERSION = "0.1.0";
@@ -13,7 +13,7 @@ const VERSION = "0.1.0";
  */
 export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): void {
   const payoutStrategyContractAddress = event.params.payoutContractAddress;
-  let payoutStrategy = MerklePayout.load(
+  let payoutStrategy = DirectPayout.load(
     payoutStrategyContractAddress.toHex()
   );
 
@@ -23,13 +23,12 @@ export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): 
   }
 
   // create if payout contract does not exist
-  payoutStrategy = new MerklePayout(payoutStrategyContractAddress.toHex());
+  payoutStrategy = new DirectPayout(payoutStrategyContractAddress.toHex());
 
   // set PayoutStrategy entity fields
-  payoutStrategy.strategyName = "MERKLE";
+  payoutStrategy.strategyName = "DIRECT";
   payoutStrategy.strategyAddress = event.params.payoutImplementation.toHex();
-  payoutStrategy.strategyImplementationAddress = "0xc808c9ea4020e0f6ec20715eea0642fa6870b5cc";
-  payoutStrategy.isReadyForPayout = false;
+  payoutStrategy.strategyImplementationAddress = "0xaed1ce441fa6ad4f89d28026f3e7491394deea5f";
 
   payoutStrategy.version = VERSION;
 
