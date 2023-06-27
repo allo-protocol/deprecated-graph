@@ -1,7 +1,8 @@
 import { PayoutContractCreated as PayoutContractCreatedEvent } from "../../../generated/DirectPayoutStrategyFactory/DirectPayoutStrategyFactory";
+import { DirectPayoutStrategyImplementation as DirectPayoutStrategyContract } from "../../../generated/DirectPayoutStrategyFactory/DirectPayoutStrategyImplementation";
 import { DirectPayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
 
-
+import { getAlloSettings } from "../../utils";
 import { DirectPayout } from "../../../generated/schema";
 import { log } from "@graphprotocol/graph-ts";
 
@@ -35,6 +36,16 @@ export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): 
   // set timestamp
   payoutStrategy.createdAt = event.block.timestamp;
   payoutStrategy.updatedAt = event.block.timestamp;
+
+  // load contract
+  const directStrategyContract = DirectPayoutStrategyContract.bind(payoutStrategyContractAddress);
+  payoutStrategy.vaultAddress = directStrategyContract.vaultAddress().toHexString();
+  payoutStrategy.roundFeePercentage = directStrategyContract.roundFeePercentage();
+  payoutStrategy.roundFeeAddress = directStrategyContract.roundFeeAddress().toHexString();
+
+  let alloSettingsAddress = directStrategyContract.alloSettings()
+  let alloSettings = getAlloSettings(alloSettingsAddress);
+  payoutStrategy.alloSetting = alloSettings.id;
 
   payoutStrategy.save();
 
