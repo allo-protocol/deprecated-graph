@@ -25,6 +25,13 @@ import { createStatusSnapshot, generateID, updateMetaPtr } from "../utils";
 import { store, BigInt } from "@graphprotocol/graph-ts";
 
 
+const STATUS_DESCRIPTION = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "CANCELLED"
+]
+
 /**
  * @dev Handles indexing on RoleGranted event.
  * @param event RoleGrantedEvent
@@ -137,6 +144,7 @@ export function handleNewProjectApplication(
   roundApplication.applicationIndex = _appIndex;
   roundApplication.metaPtr = metaPtr.id;
   roundApplication.status = 0; // 0 = pending
+  roundApplication.statusDescription = STATUS_DESCRIPTION[0];
   roundApplication.sender = _sender.toHexString();
 
   // set timestamp
@@ -164,69 +172,36 @@ export function handleNewProjectApplication(
 export function handleApplicationStatusesUpdated(
   event: ApplicationStatusesUpdatedEvent
 ): void {
+
+  const APPLICATIONS_PER_ROW = 128;
+
+  const rowIndex = event.params.index;
+  const applicationStatusesBitMap = event.params.status;
   const _round = event.address.toHex();
-  // round
-  let round = Round.load(_round);
-  round = round == null ? new Round(_round) : round;
 
-  if (round.version == '1.1.0') {
-    const APPLICATIONS_PER_ROW = 64;
+  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 
-    const rowIndex = event.params.index;
-    const applicationStatusesBitMap = event.params.status;
+  for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
 
-    const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
+    const currentApplicationIndex = startApplicationIndex + i;
 
-    for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
+    const status = applicationStatusesBitMap
+      .rightShift(u8(i * 2))
+      .bitAnd(BigInt.fromI32(3))
+      .toI32();
 
-      const currentApplicationIndex = startApplicationIndex + i;
+    // load RoundApplication entity
+    const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
+    const roundApplication = RoundApplication.load(roundApplicationId);
 
-      const status = applicationStatusesBitMap
-        .rightShift(u8(i * 4))
-        .bitAnd(BigInt.fromI32(15))
-        .toI32();
-
-      // load RoundApplication entity
-      const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
-      const roundApplication = RoundApplication.load(roundApplicationId);
-
-      if (roundApplication != null) {
-        // update status
-        roundApplication.status = status
-        roundApplication.save();
-        if (roundApplication.status != status) createStatusSnapshot(roundApplication, status, event);
-      }
-    }
-  } else {
-    const APPLICATIONS_PER_ROW = 128;
-
-    const rowIndex = event.params.index;
-    const applicationStatusesBitMap = event.params.status;
-
-    const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
-
-    for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
-
-      const currentApplicationIndex = startApplicationIndex + i;
-
-      const status = applicationStatusesBitMap
-        .rightShift(u8(i * 2))
-        .bitAnd(BigInt.fromI32(3))
-        .toI32();
-
-      // load RoundApplication entity
-      const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
-      const roundApplication = RoundApplication.load(roundApplicationId);
-
-      if (roundApplication != null) {
-        // update status
-        roundApplication.status = status
-        roundApplication.save();
-        if (roundApplication.status != status) createStatusSnapshot(roundApplication, status, event);
-      }
+    if (roundApplication != null) {
+      // update status
+      roundApplication.status = status
+      roundApplication.statusDescription = STATUS_DESCRIPTION[status];
+      roundApplication.save();
+      if (roundApplication.status != status) createStatusSnapshot(roundApplication, status, event);
     }
   }
-
 }
 
 

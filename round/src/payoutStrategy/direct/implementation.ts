@@ -2,10 +2,11 @@ import { log, ethereum } from "@graphprotocol/graph-ts";
 import {
   RoundFeePercentageUpdated as RoundFeePercentageUpdatedEvent,
   RoundFeeAddressUpdated as RoundFeeAddressUpdatedEvent,
-  PayoutMade as PayoutMadeEvent
+  PayoutMade as PayoutMadeEvent,
+  ApplicationInReview as ApplicationInReviewEvent
 } from "../../../generated/templates/DirectPayoutStrategyImplementation/DirectPayoutStrategyImplementation";
-import { DirectPayout, Payout, MetaPtr } from "../../../generated/schema";
-import { generateID, updateMetaPtr } from "../../utils";
+import { DirectPayout, Payout, MetaPtr, RoundApplication } from "../../../generated/schema";
+import { createStatusSnapshot, generateID, updateMetaPtr } from "../../utils";
 
 const VERSION = "0.1.0";
 
@@ -48,8 +49,32 @@ export function handRoundFeeAddressUpdated(event: RoundFeeAddressUpdatedEvent): 
 }
 
 /**
+ * Handles indexing on ApplicationInReview event.
+ * @param event ApplicationInReviewEvent
+ */
+export function handleApplicationInReview(event: ApplicationInReviewEvent): void {
+  const payoutStrategyAddress = event.address.toHex();
+  let payoutStrategy = DirectPayout.load(payoutStrategyAddress);
+  if (!payoutStrategy) {
+    log.warning("--> handleApplicationInReview {} {}: payoutStrategy is null", ["DIRECT", payoutStrategyAddress]);
+    return;
+  }
+
+  const roundApplicationId = [payoutStrategy.roundId, event.params.applicationIndex.toString()].join("-");
+  const roundApplication = RoundApplication.load(roundApplicationId);
+
+  if (roundApplication != null) {
+    // update status
+    roundApplication.status = 5
+    roundApplication.statusDescription = "IN REVIEW";
+    roundApplication.save();
+    if (roundApplication.status != 5) createStatusSnapshot(roundApplication, 5, event);
+  }
+}
+
+/**
  * Handles indexing on PayoutMade event.
- * @param event RoundFeeAddressUpdatedEvent
+ * @param event PayoutMadeEvent
  */
 export function handhandlePayoutMade(event: PayoutMadeEvent): void {
   // load payout strategy contract

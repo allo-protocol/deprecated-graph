@@ -103,6 +103,7 @@ type RoundApplication @entity {
   project: String!
   applicationIndex: Int!
   status: Int!
+  statusDescription: String!
   metaPtr: MetaPtr!
   round: Round!
   payoutAddress: String
@@ -117,6 +118,7 @@ type StatusSnapshot @entity {
   id:ID!
   application: RoundApplication!
   status: Int!
+  statusDescription: String!
   timestamp: BigInt!
 }
 
@@ -131,6 +133,7 @@ interface PayoutStrategy {
   strategyAddress: String!
   strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
+  roundId: String!
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
   version: String!
   createdAt: BigInt!
@@ -145,6 +148,7 @@ type MerklePayout implements PayoutStrategy @entity {
   strategyAddress: String!
   strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
+  roundId: String!
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
   version: String!
   createdAt: BigInt!
@@ -161,6 +165,7 @@ type DirectPayout implements PayoutStrategy @entity {
   strategyAddress: String!
   strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
+  roundId: String!
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
   version: String!
   createdAt: BigInt!

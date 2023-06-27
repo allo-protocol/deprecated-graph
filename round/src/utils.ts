@@ -66,6 +66,14 @@ export function fetchMetaPtrData(protocol: number , pointer: string) : JSONValue
   return null;
 }
 
+const STATUS_DESCRIPTION = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "CANCELLED",
+  "IN REVIEW"
+]
+
 /**
  * Creates a StatusSnapshot
  * @param metaPtrId string
@@ -77,6 +85,7 @@ export function createStatusSnapshot(roundApplication: RoundApplication, status:
   let statusSnapshot = new StatusSnapshot([roundApplication.id.toString(), status.toString()].join('-'));
   statusSnapshot.application = roundApplication.id;
   statusSnapshot.status = status;
+  statusSnapshot.statusDescription = STATUS_DESCRIPTION[status];
   statusSnapshot.timestamp = event.block.timestamp;
 
   return statusSnapshot;

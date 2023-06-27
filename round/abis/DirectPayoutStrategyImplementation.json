@@ -1,6 +1,16 @@
 [
   {
     "inputs": [],
+    "name": "DirectStrategy__isConfigured",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "DirectStrategy__notConfigured",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "DirectStrategy__notImplemented",
     "type": "error"
   },
@@ -21,8 +31,32 @@
   },
   {
     "inputs": [],
+    "name": "DirectStrategy__setApplicationInReview_applicationInWrongStatus",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "DirectStrategy__vote_NotImplemented",
     "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "applicationIndex",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "ApplicationInReview",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -240,23 +274,57 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "_encodedParams",
-        "type": "bytes"
-      }
-    ],
+    "inputs": [],
     "name": "init",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_alloSettings",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_vaultAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_roundFeePercentage",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_roundFeeAddress",
+        "type": "address"
+      }
+    ],
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "applicationIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "isApplicationInReview",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -380,6 +448,19 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_applicationIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "setApplicationInReview",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "setReadyForPayout",
     "outputs": [],
@@ -403,7 +484,7 @@
     "inputs": [
       {
         "internalType": "bytes",
-        "name": "_encodedDistribution",
+        "name": "",
         "type": "bytes"
       }
     ],
