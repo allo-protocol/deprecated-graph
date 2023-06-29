@@ -133,7 +133,7 @@ interface PayoutStrategy {
   strategyAddress: String!
   strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
-  roundId: String!
+  roundId: String
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
   version: String!
   createdAt: BigInt!
@@ -148,7 +148,7 @@ type MerklePayout implements PayoutStrategy @entity {
   strategyAddress: String!
   strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
-  roundId: String!
+  roundId: String
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
   version: String!
   createdAt: BigInt!
@@ -165,7 +165,7 @@ type DirectPayout implements PayoutStrategy @entity {
   strategyAddress: String!
   strategyImplementationAddress: String!
   round: Round @derivedFrom(field: "payoutStrategy")
-  roundId: String!
+  roundId: String
   payouts: [Payout!] @derivedFrom(field: "payoutStrategy")
   version: String!
   createdAt: BigInt!
