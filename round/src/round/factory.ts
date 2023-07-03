@@ -76,7 +76,7 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   const merklePayout = MerklePayout.load(payoutStrategyAddress);
   const directPayout = DirectPayout.load(payoutStrategyAddress);
 
-  if (!merklePayout && directPayout) {
+  if (!merklePayout && !directPayout) {
     // avoid creating a round if payoutStrategy does not exist
     log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
     return;

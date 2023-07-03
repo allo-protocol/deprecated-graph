@@ -95,6 +95,8 @@ dataSources:
           file: ./abis/DirectPayoutStrategyFactory.json
         - name: DirectPayoutStrategyImplementation
           file: ./abis/DirectPayoutStrategyImplementation.json
+        - name: AlloSettings
+          file: ./abis/AlloSettings.json
       eventHandlers:
         - event: PayoutContractCreated(indexed address,indexed address)
           handler: handlePayoutContractCreated
@@ -233,6 +235,8 @@ templates:
       abis:
         - name: DirectPayoutStrategyImplementation
           file: ./abis/DirectPayoutStrategyImplementation.json
+        - name: AlloSettings
+          file: ./abis/AlloSettings.json
       eventHandlers:
         - event: RoundFeePercentageUpdated(uint32)
           handler: handleRoundFeePercentageUpdated

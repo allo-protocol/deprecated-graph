@@ -28,7 +28,6 @@ export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): 
   // set PayoutStrategy entity fields
   payoutStrategy.strategyName = "MERKLE";
   payoutStrategy.strategyAddress = event.params.payoutImplementation.toHex();
-  payoutStrategy.strategyImplementationAddress = "0xc808c9ea4020e0f6ec20715eea0642fa6870b5cc";
   payoutStrategy.isReadyForPayout = false;
 
   payoutStrategy.version = VERSION;
