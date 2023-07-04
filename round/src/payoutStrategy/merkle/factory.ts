@@ -1,5 +1,7 @@
-import { PayoutContractCreated as PayoutContractCreatedEvent } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyFactory";
-import { MerklePayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
+import {
+  PayoutContractCreated as PayoutContractCreatedEvent
+} from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyFactory";
+import {MerklePayoutStrategyImplementation as PayoutStrategyImplementation} from "../../../generated/templates";
 
 
 import { PayoutStrategy } from "../../../generated/schema";
@@ -13,12 +15,16 @@ const VERSION = "0.1.0";
  */
 export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): void {
   const payoutStrategyContractAddress = event.params.payoutContractAddress;
+
   let payoutStrategy = PayoutStrategy.load(
     payoutStrategyContractAddress.toHex()
   );
 
   if (payoutStrategy) {
     log.warning("--> handlePayoutContractCreated {} : payoutStrategy already exists", [payoutStrategyContractAddress.toHex()]);
+    payoutStrategy.strategyAddress = event.params.payoutImplementation.toHex();
+    payoutStrategy.updatedAt = event.block.timestamp;
+    payoutStrategy.save();
     return;
   }
 

@@ -2,14 +2,17 @@ import {
   RoundCreated as RoundCreatedEvent
 } from "../../generated/Round/RoundFactory"
 
-import { PayoutStrategy, Program, Round } from "../../generated/schema";
-import { RoundImplementation } from  "../../generated/templates";
+import {PayoutStrategy, Program, Round} from "../../generated/schema";
+import {RoundImplementation} from "../../generated/templates";
 import {
   RoundImplementation as RoundImplementationContract
 } from "../../generated/templates/RoundImplementation/RoundImplementation";
+import {
+  MerklePayoutStrategyImplementation as PayoutContract
+} from "../../generated/templates/MerklePayoutStrategyImplementation/MerklePayoutStrategyImplementation";
 
-import { updateMetaPtr } from "../utils";
-import { BigInt, log } from "@graphprotocol/graph-ts";
+import {updateMetaPtr} from "../utils";
+import {Address, log} from "@graphprotocol/graph-ts";
 
 
 /**
@@ -17,7 +20,7 @@ import { BigInt, log } from "@graphprotocol/graph-ts";
  * @param event RoundCreatedEvent
  */
 export function handleRoundCreated(event: RoundCreatedEvent): void {
-
+  log.info(`Got round creation ${event.transaction.hash} ${event.logIndex}`, []);
   const roundContractAddress = event.params.roundAddress;
   let round = Round.load(roundContractAddress.toHex());
 
@@ -72,14 +75,22 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   round.program = program.id;
 
   // link round to payoutStrategy
-  const payoutStrategyAddress = roundContract.payoutStrategy().toHex();
-  const payoutStrategy = PayoutStrategy.load(payoutStrategyAddress);
+  const payoutStrategyAddress = roundContract.payoutStrategy();
+  const payoutStrategyContract = PayoutContract.bind(payoutStrategyAddress);
+  let payoutStrategy = new PayoutStrategy(payoutStrategyAddress.toHex());
 
-  if (!payoutStrategy) {
-    // avoid creating a round if payoutStrategy does not exist
-    log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
-    return;
-  }
+  // set PayoutStrategy entity fields
+  payoutStrategy.strategyName = "MERKLE";
+  payoutStrategy.strategyAddress = new Address(32).toHex();
+  payoutStrategy.isReadyForPayout = payoutStrategyContract.isReadyForPayout();
+
+  payoutStrategy.version = payoutStrategyContract.VERSION();
+
+  // set timestamp
+  payoutStrategy.createdAt = event.block.timestamp;
+  payoutStrategy.updatedAt = event.block.timestamp;
+
+  payoutStrategy.save();
 
   round.payoutStrategy = payoutStrategy.id;
 
