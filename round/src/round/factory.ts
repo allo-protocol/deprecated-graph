@@ -20,7 +20,6 @@ import {Address, log} from "@graphprotocol/graph-ts";
  * @param event RoundCreatedEvent
  */
 export function handleRoundCreated(event: RoundCreatedEvent): void {
-  log.info(`Got round creation ${event.transaction.hash} ${event.logIndex}`, []);
   const roundContractAddress = event.params.roundAddress;
   let round = Round.load(roundContractAddress.toHex());
 
