@@ -39,12 +39,6 @@ export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): 
   // load contract
   const directStrategyContract = DirectPayoutStrategyContract.bind(payoutStrategyContractAddress);
   payoutStrategy.vaultAddress = directStrategyContract.vaultAddress().toHexString();
-  payoutStrategy.roundFeePercentage = directStrategyContract.roundFeePercentage();
-  payoutStrategy.roundFeeAddress = directStrategyContract.roundFeeAddress().toHexString();
-
-  let alloSettingsAddress = directStrategyContract.alloSettings()
-  let alloSettings = getAlloSettings(alloSettingsAddress);
-  payoutStrategy.alloSetting = alloSettings.id;
 
   payoutStrategy.save();
 

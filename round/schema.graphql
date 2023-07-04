@@ -169,9 +169,6 @@ type DirectPayout implements PayoutStrategy @entity {
   updatedAt: BigInt!
 
   vaultAddress: String!
-  alloSetting: AlloSetting!
-  roundFeePercentage: BigInt!
-  roundFeeAddress: String!
 }
 
 # id = keccak256(event.receipt.transactionHash.toHex(), Payout.projectId)
@@ -186,7 +183,10 @@ type Payout @entity {
   projectId: String!
   txnHash: String!
   # round: Round!
+
   vault: String
   applicationIndex: Int
   allowanceModule: String
+  protocolFee: BigInt
+  roundFee: BigInt
 }

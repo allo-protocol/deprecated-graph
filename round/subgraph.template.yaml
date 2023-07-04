@@ -238,16 +238,13 @@ templates:
         - name: AlloSettings
           file: ./abis/AlloSettings.json
       eventHandlers:
-        - event: RoundFeePercentageUpdated(uint32)
-          handler: handleRoundFeePercentageUpdated
-          receipt: true
-        - event: RoundFeeAddressUpdated(address)
-          handler: handleRoundFeeAddressUpdated
+        - event: VaultAddressUpdated(address)
+          handler: handleVaultAddressUpdated
           receipt: true
         - event: ApplicationInReview(indexed uint256,indexed address)
           handler: handleApplicationInReview
           receipt: true
-        - event: PayoutMade(indexed address,address,uint256,address,indexed bytes32,indexed uint256,address)
+        - event: PayoutMade(indexed address,address,uint256,uint256,uint256,address,indexed bytes32,indexed uint256,address)
           handler: handlePayoutMade
           receipt: true
       file: ./src/payoutStrategy/direct/implementation.ts

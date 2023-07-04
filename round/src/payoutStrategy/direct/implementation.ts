@@ -1,7 +1,6 @@
 import { log, ethereum } from "@graphprotocol/graph-ts";
 import {
-  RoundFeePercentageUpdated as RoundFeePercentageUpdatedEvent,
-  RoundFeeAddressUpdated as RoundFeeAddressUpdatedEvent,
+  VaultAddressUpdated as VaultAddressUpdatedEvent,
   PayoutMade as PayoutMadeEvent,
   ApplicationInReview as ApplicationInReviewEvent
 } from "../../../generated/templates/DirectPayoutStrategyImplementation/DirectPayoutStrategyImplementation";
@@ -12,39 +11,19 @@ const VERSION = "0.1.0";
 
 
 /**
- * Handles indexing on RoundFeePercentageUpdated event.
- * @param event RoundFeePercentageUpdatedEvent
+ * Handles indexing on VaultAddressUpdated event.
+ * @param event VaultAddressUpdatedEvent
  */
-export function handRoundFeePercentageUpdated(event: RoundFeePercentageUpdatedEvent): void {
+export function handVaultAddressUpdated(event: VaultAddressUpdatedEvent): void {
   const payoutStrategyAddress = event.address.toHex();
   let payoutStrategy = DirectPayout.load(payoutStrategyAddress);
 
   if (!payoutStrategy) {
-    log.warning("--> handRoundFeePercentageUpdated {} {}: payoutStrategy is null", [
-      "DIRECT",
-      payoutStrategyAddress
-    ]);
+    log.warning("--> handVaultAddressUpdated {} {}: payoutStrategy is null", ["DIRECT", payoutStrategyAddress]);
     return;
   }
 
-  payoutStrategy.roundFeePercentage = event.params.roundFeePercentage;
-  payoutStrategy.save();
-}
-
-/**
- * Handles indexing on RoundFeeAddressUpdated event.
- * @param event RoundFeeAddressUpdatedEvent
- */
-export function handRoundFeeAddressUpdated(event: RoundFeeAddressUpdatedEvent): void {
-  const payoutStrategyAddress = event.address.toHex();
-  let payoutStrategy = DirectPayout.load(payoutStrategyAddress);
-
-  if (!payoutStrategy) {
-    log.warning("--> handRoundFeeAddressUpdated {} {}: payoutStrategy is null", ["DIRECT", payoutStrategyAddress]);
-    return;
-  }
-
-  payoutStrategy.roundFeeAddress = event.params.roundFeeAddress.toHexString();
+  payoutStrategy.vaultAddress = event.params.vaultAddress.toHexString();
   payoutStrategy.save();
 }
 
@@ -102,6 +81,8 @@ export function handhandlePayoutMade(event: PayoutMadeEvent): void {
   payout.vault = event.params.vault.toHex();
   payout.applicationIndex = event.params.applicationIndex.toI32();
   payout.allowanceModule = event.params.allowanceModule.toHex();
+  payout.protocolFee = event.params.protocolFee;
+  payout.roundFee = event.params.roundFee;
 
   payout.txnHash = event.transaction.hash.toHex();
 
