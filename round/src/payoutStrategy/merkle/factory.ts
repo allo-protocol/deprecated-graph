@@ -1,8 +1,10 @@
 import { PayoutContractCreated as PayoutContractCreatedEvent } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyFactory";
+import { MerklePayoutStrategyImplementation as MerklePayoutStrategyContract } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyImplementation";
+import { RoundImplementation as RoundImplementationContract } from "../../../generated/MerklePayoutStrategyFactory/RoundImplementation";
 import { MerklePayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
 
 
-import { MerklePayout } from "../../../generated/schema";
+import { MerklePayout, Round } from "../../../generated/schema";
 import { log } from "@graphprotocol/graph-ts";
 
 const VERSION = "0.1.0";
@@ -35,6 +37,21 @@ export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): 
   // set timestamp
   payoutStrategy.createdAt = event.block.timestamp;
   payoutStrategy.updatedAt = event.block.timestamp;
+
+  // load contract
+  const directStrategyContract = MerklePayoutStrategyContract.bind(payoutStrategyContractAddress);
+
+  // link round to payoutStrategy
+  const roundAddress = directStrategyContract.roundAddress();
+  const round = Round.load(roundAddress.toHexString());
+  if (round) {
+    const roundContract = RoundImplementationContract.bind(roundAddress);
+    round.payoutStrategy = payoutStrategyContractAddress.toHexString();
+    round.votingStrategy = roundContract.votingStrategy().toHexString();
+    round.save()
+  }
+
+  payoutStrategy.roundId = roundAddress.toHexString();
 
   payoutStrategy.save();
 

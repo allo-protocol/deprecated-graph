@@ -71,28 +71,24 @@ export function handleRoundCreated(event: RoundCreatedEvent): void {
   }
   round.program = program.id;
 
-  // link round to payoutStrategy
+  // link round to payoutStrategy, this is also being handled on the factory strategy creation because in the new version
+  // the event being handled here is emitted before the one that creates the payoutStrategy entity
   const payoutStrategyAddress = roundContract.payoutStrategy().toHex();
   const merklePayout = MerklePayout.load(payoutStrategyAddress);
   const directPayout = DirectPayout.load(payoutStrategyAddress);
 
-  if (!merklePayout && !directPayout) {
-    // avoid creating a round if payoutStrategy does not exist
-    log.warning("--> handleRoundCreated {} : payoutStrategy {} is null", [roundContractAddress.toHex(), payoutStrategyAddress]);
-    return;
-  }
+  if (merklePayout || directPayout) {
+    if (merklePayout) {
+      merklePayout.roundId = roundContractAddress.toHex()
+      merklePayout.save()
+    }
+    if (directPayout) {
+      directPayout.roundId = roundContractAddress.toHex()
+      directPayout.save()
+    }
 
-  if (merklePayout) {
-    merklePayout.roundId = roundContractAddress.toHex()
-    merklePayout.save()
+    round.payoutStrategy = payoutStrategyAddress;
   }
-  if (directPayout) {
-    directPayout.roundId = roundContractAddress.toHex()
-    directPayout.save()
-  }
-
-
-  round.payoutStrategy = payoutStrategyAddress;
 
   round.votingStrategy = roundContract.votingStrategy().toHex();
 

@@ -1,9 +1,10 @@
 import { PayoutContractCreated as PayoutContractCreatedEvent } from "../../../generated/DirectPayoutStrategyFactory/DirectPayoutStrategyFactory";
 import { DirectPayoutStrategyImplementation as DirectPayoutStrategyContract } from "../../../generated/DirectPayoutStrategyFactory/DirectPayoutStrategyImplementation";
+import { RoundImplementation as RoundImplementationContract } from "../../../generated/DirectPayoutStrategyFactory/RoundImplementation";
 import { DirectPayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
 
 import { getAlloSettings } from "../../utils";
-import { DirectPayout } from "../../../generated/schema";
+import { DirectPayout, Round } from "../../../generated/schema";
 import { log } from "@graphprotocol/graph-ts";
 
 const VERSION = "0.1.0";
@@ -39,6 +40,18 @@ export function handlePayoutContractCreated(event: PayoutContractCreatedEvent): 
   // load contract
   const directStrategyContract = DirectPayoutStrategyContract.bind(payoutStrategyContractAddress);
   payoutStrategy.vaultAddress = directStrategyContract.vaultAddress().toHexString();
+
+  // link round to payoutStrategy
+  const roundAddress = directStrategyContract.roundAddress();
+  const round = Round.load(roundAddress.toHexString());
+  if (round) {
+    const roundContract = RoundImplementationContract.bind(roundAddress);
+    round.payoutStrategy = payoutStrategyContractAddress.toHexString();
+    round.votingStrategy = roundContract.votingStrategy().toHexString();
+    round.save()
+  }
+
+  payoutStrategy.roundId = roundAddress.toHexString();
 
   payoutStrategy.save();
 

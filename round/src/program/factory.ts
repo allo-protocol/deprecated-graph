@@ -45,4 +45,3 @@ export function handleProgramCreated(event: ProgramCreatedEvent): void {
 
   ProgramImplementation.create(programContractAddress)
 }
-

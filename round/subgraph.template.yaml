@@ -71,6 +71,8 @@ dataSources:
           file: ./abis/MerklePayoutStrategyFactory.json
         - name: MerklePayoutStrategyImplementation
           file: ./abis/MerklePayoutStrategyImplementation.json
+        - name: RoundImplementation
+          file: ./abis/RoundImplementation.json
       eventHandlers:
         - event: PayoutContractCreated(indexed address,indexed address)
           handler: handlePayoutContractCreated
@@ -95,6 +97,8 @@ dataSources:
           file: ./abis/DirectPayoutStrategyFactory.json
         - name: DirectPayoutStrategyImplementation
           file: ./abis/DirectPayoutStrategyImplementation.json
+        - name: RoundImplementation
+          file: ./abis/RoundImplementation.json
         - name: AlloSettings
           file: ./abis/AlloSettings.json
       eventHandlers:
