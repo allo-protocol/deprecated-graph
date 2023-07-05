@@ -9,7 +9,7 @@ import {
   handleProtocolFeePercentageUpdated,
   handleProtocolTreasuryUpdated
 } from "../../src/settings/alloSettings";
-import { AlloSettings } from "../../generated/schema";
+import { AlloSetting } from "../../generated/schema";
 
 function createNewProtocolFeePercentageUpdated(feePercentage: BigInt): ProtocolFeePercentageUpdatedEvent {
   const newProtocolFeePercentageUpdatedEvent = changetype<ProtocolFeePercentageUpdatedEvent>(newMockEvent());
@@ -34,7 +34,7 @@ function createNewProtocolTreasuryUpdated(protocolTreasuryAddress: Address): Pro
 describe("handleProtocolFeePercentageUpdated", () => {
 
   beforeEach(() => {
-    const alloSettingsEntity = new AlloSettings("1");
+    const alloSettingsEntity = new AlloSetting("1");
     alloSettingsEntity.protocolFeePercentage = 1000;
     alloSettingsEntity.protocolTreasury = Address.fromString("0xB16081F360e3847006dB660bae1c6d1b2e17eC2C").toHexString();
     alloSettingsEntity.save();
@@ -48,7 +48,7 @@ describe("handleProtocolFeePercentageUpdated", () => {
     const feePercentage = BigInt.fromI32(1000);
     handleProtocolFeePercentageUpdated(createNewProtocolFeePercentageUpdated(feePercentage));
 
-    const alloSettings = AlloSettings.load("1");
+    const alloSettings = AlloSetting.load("1");
     assert.assertNotNull(alloSettings);
 
     assert.stringEquals(feePercentage.toString(), alloSettings!.protocolFeePercentage.toString());
@@ -58,14 +58,14 @@ describe("handleProtocolFeePercentageUpdated", () => {
     const feePercentage = BigInt.fromI32(1000);
     handleProtocolFeePercentageUpdated(createNewProtocolFeePercentageUpdated(feePercentage));
 
-    let alloSettings = AlloSettings.load("1");
+    let alloSettings = AlloSetting.load("1");
     assert.assertNotNull(alloSettings);
 
     assert.stringEquals(feePercentage.toString(), alloSettings!.protocolFeePercentage.toString());
 
     const newFeePercentage = BigInt.fromI32(1100);
     handleProtocolFeePercentageUpdated(createNewProtocolFeePercentageUpdated(newFeePercentage));
-    alloSettings = AlloSettings.load("1");
+    alloSettings = AlloSetting.load("1");
     assert.stringEquals(newFeePercentage.toString(), alloSettings!.protocolFeePercentage.toString());
   });
 
@@ -74,7 +74,7 @@ describe("handleProtocolFeePercentageUpdated", () => {
 describe("handleProtocolTreasuryUpdated", () => {
 
   beforeEach(() => {
-    const alloSettingsEntity = new AlloSettings("1");
+    const alloSettingsEntity = new AlloSetting("1");
     alloSettingsEntity.protocolFeePercentage = 1000;
     alloSettingsEntity.protocolTreasury = Address.fromString("0xB16081F360e3847006dB660bae1c6d1b2e17eC2C").toHexString();
     alloSettingsEntity.save();
@@ -88,7 +88,7 @@ describe("handleProtocolTreasuryUpdated", () => {
     const protocolTreasury = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2B");
     handleProtocolTreasuryUpdated(createNewProtocolTreasuryUpdated(protocolTreasury));
 
-    const alloSettings = AlloSettings.load("1");
+    const alloSettings = AlloSetting.load("1");
     assert.assertNotNull(alloSettings);
 
     assert.stringEquals(protocolTreasury.toHexString(), alloSettings!.protocolTreasury!);
@@ -98,14 +98,14 @@ describe("handleProtocolTreasuryUpdated", () => {
     const protocolTreasury = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2B");
     handleProtocolTreasuryUpdated(createNewProtocolTreasuryUpdated(protocolTreasury));
 
-    let alloSettings = AlloSettings.load("1");
+    let alloSettings = AlloSetting.load("1");
     assert.assertNotNull(alloSettings);
 
     assert.stringEquals(protocolTreasury.toHexString(), alloSettings!.protocolTreasury!);
 
     const newProtocolTreasury = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2E");
     handleProtocolTreasuryUpdated(createNewProtocolTreasuryUpdated(newProtocolTreasury));
-    alloSettings = AlloSettings.load("1");
+    alloSettings = AlloSetting.load("1");
     assert.stringEquals(newProtocolTreasury.toHexString(), alloSettings!.protocolTreasury!);
   });
 });

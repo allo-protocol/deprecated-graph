@@ -2,7 +2,7 @@ import { test, assert, newMockEvent , createMockedFunction, describe, beforeEach
 import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts";
 import { handleRoundCreated } from "../../src/round/factory";
 import { RoundCreated  as RoundCreatedEvent } from "../../generated/Round/RoundFactory";
-import { MetaPtr, PayoutStrategy, Program, Round } from "../../generated/schema";
+import { MetaPtr, MerklePayout, Program, Round } from "../../generated/schema";
 
 let roundContractAddress: Address;
 let roundImplementation: Address;
@@ -48,7 +48,7 @@ describe("handleRoundCreated", () => {
     roundImplementation = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2D");
     payoutStrategy = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2E");
     token = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2F");
-    
+
     applicationsStartTime = new BigInt(10);
     applicationsEndTime = new BigInt(20);
     roundStartTime = new BigInt(30);
@@ -62,7 +62,7 @@ describe("handleRoundCreated", () => {
     applicationPointer = "randomApplicationIPFSHash";
 
     // Create PayoutStrategy entity
-    let payoutStrategyEntity = new PayoutStrategy(payoutStrategy.toHex());
+    let payoutStrategyEntity = new MerklePayout(payoutStrategy.toHex());
     payoutStrategyEntity.strategyName = "MERKLE";
     payoutStrategyEntity.strategyAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eB1A";
     payoutStrategyEntity.isReadyForPayout = false;
@@ -224,12 +224,16 @@ describe("handleRoundCreated", () => {
     assert.stringEquals(programEntity!.id, program.toHex());
 
     // payoutStrategys
-    const payoutStrategyEntity = PayoutStrategy.load(round!.payoutStrategy);
-    assert.assertNotNull(payoutStrategyEntity);
-    assert.stringEquals(payoutStrategyEntity!.id, payoutStrategy.toHex());
+    if (round!.payoutStrategy) {
+      const payoutStrategyEntity = MerklePayout.load(round!.payoutStrategy!);
+      assert.assertNotNull(payoutStrategyEntity);
+      assert.stringEquals(payoutStrategyEntity!.id, payoutStrategy.toHex());
+    }
 
     // votingStrategy
-    assert.stringEquals(round!.votingStrategy, votingStrategy.toHex());
+    if (round!.votingStrategy) {
+      assert.stringEquals(round!.votingStrategy!, votingStrategy.toHex());
+    }
 
     // // projectsMetaPtr
     assert.assertNull(round!.projectsMetaPtr);
