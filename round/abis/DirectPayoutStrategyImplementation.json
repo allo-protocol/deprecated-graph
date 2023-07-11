@@ -10,27 +10,22 @@
     "type": "error"
   },
   {
-    "inputs": [],
-    "name": "DirectStrategy__setApplicationInReview_applicationInWrongStatus",
-    "type": "error"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "applicationIndex",
+        "name": "index",
         "type": "uint256"
       },
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "operator",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "status",
+        "type": "uint256"
       }
     ],
-    "name": "ApplicationInReview",
+    "name": "ApplicationInReviewUpdated",
     "type": "event"
   },
   {
@@ -192,6 +187,25 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "inReviewApplicationsBitMap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "init",
     "outputs": [],
@@ -308,12 +322,24 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_applicationIndex",
-        "type": "uint256"
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "index",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "statusRow",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct DirectPayoutStrategyImplementation.ApplicationStatus[]",
+        "name": "statuses",
+        "type": "tuple[]"
       }
     ],
-    "name": "setApplicationInReview",
+    "name": "setApplicationsInReview",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

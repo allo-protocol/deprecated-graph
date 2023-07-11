@@ -1,14 +1,17 @@
-import { log, ethereum } from "@graphprotocol/graph-ts";
+import { BigInt, log, ethereum } from "@graphprotocol/graph-ts";
 import {
   VaultAddressUpdated as VaultAddressUpdatedEvent,
   PayoutMade as PayoutMadeEvent,
-  ApplicationInReview as ApplicationInReviewEvent
+  ApplicationInReviewUpdated as ApplicationInReviewUpdatedEvent
 } from "../../../generated/templates/DirectPayoutStrategyImplementation/DirectPayoutStrategyImplementation";
 import { DirectPayout, Payout, MetaPtr, RoundApplication } from "../../../generated/schema";
 import { createStatusSnapshot, generateID, updateMetaPtr } from "../../utils";
 
 const VERSION = "0.1.0";
 
+
+const IN_REVIEW_DESCRIPTION = "IN_REVIEW";
+const IN_REVIEW_ID = 4;
 
 /**
  * Handles indexing on VaultAddressUpdated event.
@@ -28,10 +31,10 @@ export function handVaultAddressUpdated(event: VaultAddressUpdatedEvent): void {
 }
 
 /**
- * Handles indexing on ApplicationInReview event.
- * @param event ApplicationInReviewEvent
+ * Handles indexing on ApplicationInReviewUpdated event.
+ * @param event ApplicationInReviewUpdatedEvent
  */
-export function handleApplicationInReview(event: ApplicationInReviewEvent): void {
+export function handleApplicationInReview(event: ApplicationInReviewUpdatedEvent): void {
   const payoutStrategyAddress = event.address.toHex();
   let payoutStrategy = DirectPayout.load(payoutStrategyAddress);
   if (!payoutStrategy) {
@@ -39,15 +42,33 @@ export function handleApplicationInReview(event: ApplicationInReviewEvent): void
     return;
   }
 
-  const roundApplicationId = [payoutStrategy.roundId, event.params.applicationIndex.toString()].join("-");
-  const roundApplication = RoundApplication.load(roundApplicationId);
+  const APPLICATIONS_PER_ROW = 256;
 
-  if (roundApplication != null) {
-    // update status
-    roundApplication.status = 5
-    roundApplication.statusDescription = "IN REVIEW";
-    roundApplication.save();
-    if (roundApplication.status != 5) createStatusSnapshot(roundApplication, 5, event);
+  const rowIndex = event.params.index;
+  const applicationStatusesBitMap = event.params.status;
+  const _round = event.address.toHex();
+
+  const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
+
+  for (let i = 0; i < APPLICATIONS_PER_ROW; i++) {
+    const currentApplicationIndex = startApplicationIndex + i;
+
+    const newStatus = applicationStatusesBitMap
+      .rightShift(u8(i))
+      .bitAnd(BigInt.fromI32(1))
+      .toI32();
+
+    // load RoundApplication entity
+    const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
+    const roundApplication = RoundApplication.load(roundApplicationId);
+
+    if (newStatus == 1 && roundApplication && roundApplication.statusDescription != "PENDING") {
+      // update status
+      roundApplication.status = IN_REVIEW_ID;
+      roundApplication.statusDescription = IN_REVIEW_DESCRIPTION;
+      roundApplication.save();
+      if (roundApplication.status != IN_REVIEW_ID) createStatusSnapshot(roundApplication, IN_REVIEW_ID, event);
+    }
   }
 }
 
@@ -55,7 +76,7 @@ export function handleApplicationInReview(event: ApplicationInReviewEvent): void
  * Handles indexing on PayoutMade event.
  * @param event PayoutMadeEvent
  */
-export function handhandlePayoutMade(event: PayoutMadeEvent): void {
+export function handlePayoutMade(event: PayoutMadeEvent): void {
   // load payout strategy contract
   const payoutStrategyAddress = event.address.toHex();
   let payoutStrategy = DirectPayout.load(payoutStrategyAddress);
