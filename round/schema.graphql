@@ -104,6 +104,7 @@ type RoundApplication @entity {
   applicationIndex: Int!
   status: Int!
   statusDescription: String!
+  inReview: Boolean!
   metaPtr: MetaPtr!
   round: Round!
   payoutAddress: String

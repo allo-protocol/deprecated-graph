@@ -11,6 +11,7 @@ const VERSION = "0.1.0";
 
 
 const IN_REVIEW_DESCRIPTION = "IN_REVIEW";
+const PENDING_ID = 0;
 const IN_REVIEW_ID = 4;
 
 /**
@@ -62,12 +63,12 @@ export function handleApplicationInReview(event: ApplicationInReviewUpdatedEvent
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
     const roundApplication = RoundApplication.load(roundApplicationId);
 
-    if (newStatus == 1 && roundApplication && roundApplication.statusDescription != "PENDING") {
+    if (newStatus == 1 && roundApplication && roundApplication.status == PENDING_ID && !roundApplication.inReview) {
       // update status
-      roundApplication.status = IN_REVIEW_ID;
       roundApplication.statusDescription = IN_REVIEW_DESCRIPTION;
+      createStatusSnapshot(roundApplication, IN_REVIEW_ID, event)
+      roundApplication.inReview = true;
       roundApplication.save();
-      if (roundApplication.status != IN_REVIEW_ID) createStatusSnapshot(roundApplication, IN_REVIEW_ID, event);
     }
   }
 }

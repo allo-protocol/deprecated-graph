@@ -145,6 +145,7 @@ export function handleNewProjectApplication(
   roundApplication.metaPtr = metaPtr.id;
   roundApplication.status = 0; // 0 = pending
   roundApplication.statusDescription = STATUS_DESCRIPTION[0];
+  roundApplication.inReview = false;
   roundApplication.sender = _sender.toHexString();
 
   // set timestamp
@@ -194,12 +195,13 @@ export function handleApplicationStatusesUpdated(
     const roundApplicationId = [_round, currentApplicationIndex.toString()].join("-");
     const roundApplication = RoundApplication.load(roundApplicationId);
 
-    if (roundApplication != null) {
+    if (roundApplication != null && roundApplication.status != status) {
       // update status
-      roundApplication.status = status
       roundApplication.statusDescription = STATUS_DESCRIPTION[status];
+      roundApplication.status = status;
+      createStatusSnapshot(roundApplication, status, event)
+      roundApplication.inReview = false;
       roundApplication.save();
-      if (roundApplication.status != status) createStatusSnapshot(roundApplication, status, event);
     }
   }
 }
