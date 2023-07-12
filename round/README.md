@@ -18,6 +18,8 @@ The following sections document the hosted services where the subgraph is deploy
 | fantom         | gitcoinco/grants-round-fantom-mainnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-mainnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-mainnet         |
 | fantom-testnet | gitcoinco/grants-round-fantom-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-testnet         |
 | optimism       | gitcoinco/grants-round-optimism-mainnet      | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-optimism-mainnet      | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-optimism-mainnet       |
+| pgn-testnet | gitcoinco/grants-round-pgn-testnet |  |  |
+| pgn | gitcoinco/grants-round-pgn-mainnet |  |  |
 
 ## Directory Structure
 
@@ -92,6 +94,8 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 | fantom         |
 | fantom-testnet |
 | localhost      |
+| pgn-testnet    |
+| pgn            |
 
 
 - Run codegen
