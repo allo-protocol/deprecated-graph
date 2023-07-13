@@ -18,8 +18,8 @@ The following sections document the hosted services where the subgraph is deploy
 | fantom         | gitcoinco/grants-round-fantom-mainnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-mainnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-mainnet         |
 | fantom-testnet | gitcoinco/grants-round-fantom-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-testnet         |
 | optimism       | gitcoinco/grants-round-optimism-mainnet      | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-optimism-mainnet      | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-optimism-mainnet       |
-| pgn-testnet | gitcoinco/grants-round-pgn-testnet |  |  |
-| pgn | gitcoinco/grants-round-pgn-mainnet |  |  |
+| pgn-testnet | gitcoinco/grants-round-pgn-testnet |  | http://159.203.78.168:8000/subgraphs/name/gitcoin/allo |
+| pgn | gitcoinco/grants-round-pgn-mainnet |  | http://159.89.46.168:8000/subgraphs/name/gitcoin/allo |
 
 ## Directory Structure
 
