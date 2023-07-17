@@ -47,7 +47,7 @@ export function handleApplicationInReview(event: ApplicationInReviewUpdatedEvent
 
   const rowIndex = event.params.index;
   const applicationStatusesBitMap = event.params.status;
-  const _round = event.address.toHex();
+  const _round = payoutStrategy.roundId;
 
   const startApplicationIndex = APPLICATIONS_PER_ROW * rowIndex.toI32();
 

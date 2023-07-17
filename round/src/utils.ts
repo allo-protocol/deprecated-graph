@@ -87,6 +87,7 @@ export function createStatusSnapshot(roundApplication: RoundApplication, status:
   statusSnapshot.status = status;
   statusSnapshot.statusDescription = STATUS_DESCRIPTION[status];
   statusSnapshot.timestamp = event.block.timestamp;
+  statusSnapshot.save();
 
   return statusSnapshot;
 }
