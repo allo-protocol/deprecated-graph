@@ -1,8 +1,8 @@
 {
   "network": "fantom-testnet",
   "startBlock": 11455000,
-  "programFactoryAddress": "0xbB8f276FE1D52a38FbED8845bCefb9A23138Af92",
-  "roundFactoryAddress": "0x00F51ba2Cd201F4bFac0090F450de0992a838762",
+  "programFactoryAddress": "0x424C5C175fbd46CA0b27866044A5B956c6AbEe0D",
+  "roundFactoryAddress": "0x8AdFcF226dfb2fA73788Ad711C958Ba251369cb3",
   "merklePayoutStrategyFactoryAddress": "0x5b55728e41154562ee80027C1247B13382692e5C",
   "alloSettingsAddress": "0xc6B90f42Ea395898B4C1B33e5C8Fa351829BCD90"
 }
