@@ -3,7 +3,6 @@ import { DirectPayoutStrategyImplementation as DirectPayoutStrategyContract } fr
 import { RoundImplementation as RoundImplementationContract } from "../../../generated/DirectPayoutStrategyFactory/RoundImplementation";
 import { DirectPayoutStrategyImplementation as PayoutStrategyImplementation } from "../../../generated/templates";
 
-import { getAlloSettings } from "../../utils";
 import { DirectPayout, Round } from "../../../generated/schema";
 import { log } from "@graphprotocol/graph-ts";
 

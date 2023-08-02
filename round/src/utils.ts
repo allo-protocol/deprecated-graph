@@ -4,7 +4,7 @@ import { Address, BigInt, crypto,
   // json,
   JSONValue } from '@graphprotocol/graph-ts'
 import { ByteArray } from '@graphprotocol/graph-ts';
-import { MetaPtr, RoundApplication, StatusSnapshot, AlloSetting } from '../generated/schema';
+import { MetaPtr, RoundApplication, StatusSnapshot, AlloSettings } from '../generated/schema';
 
 import {
   AlloSettings as AlloSettingsContract

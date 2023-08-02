@@ -14,7 +14,7 @@ type MetaPtr @entity {
 # == Allo Settings == #
 #######################
 
-type AlloSetting @entity {
+type AlloSettings @entity {
   id: ID!
   protocolFeePercentage: Int
   protocolTreasury: String

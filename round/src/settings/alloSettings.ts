@@ -3,7 +3,7 @@ import {
   ProtocolTreasuryUpdated as ProtocolTreasuryUpdatedEvent
 } from "../../generated/AlloSettings/AlloSettings";
 
-import { AlloSetting } from "../../generated/schema";
+import { AlloSettings } from "../../generated/schema";
 
 /**
  * Handles indexing on ProtocolFeePercentageUpdated event.
@@ -14,14 +14,14 @@ export function handleProtocolFeePercentageUpdated(event: ProtocolFeePercentageU
   let protocolFeePercentage = event.params.protocolFeePercentage;
 
   // Update the protocol fee percentage value in the AlloSettings entity
-  let alloSetting = AlloSetting.load("1");
+  let alloSettings = AlloSettings.load("1");
 
-  if (alloSetting == null) {
-    alloSetting = new AlloSetting("1");
+  if (alloSettings == null) {
+    alloSettings = new AlloSettings("1");
   }
 
-  alloSetting.protocolFeePercentage = protocolFeePercentage;
-  alloSetting.save();
+  alloSettings.protocolFeePercentage = protocolFeePercentage;
+  alloSettings.save();
 }
 
 
@@ -34,12 +34,12 @@ export function handleProtocolTreasuryUpdated(event: ProtocolTreasuryUpdatedEven
   let protocolTreasury = event.params.protocolTreasuryAddress.toHexString();
 
   // Update the protocol treasury address value in the AlloSettings entity
-  let alloSetting = AlloSetting.load("1");
+  let alloSettings = AlloSettings.load("1");
 
-  if (alloSetting == null) {
-    alloSetting = new AlloSetting("1");
+  if (alloSettings == null) {
+    alloSettings = new AlloSettings("1");
   }
 
-  alloSetting.protocolTreasury = protocolTreasury;
-  alloSetting.save();
+  alloSettings.protocolTreasury = protocolTreasury;
+  alloSettings.save();
 }
