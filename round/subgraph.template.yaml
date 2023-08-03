@@ -45,6 +45,8 @@ dataSources:
           file: ./abis/RoundFactory.json
         - name: RoundImplementation
           file: ./abis/RoundImplementation.json
+        - name: MerklePayoutStrategyImplementation
+          file: ./abis/MerklePayoutStrategyImplementation.json
       eventHandlers:
         - event: RoundCreated(indexed address,indexed address,indexed address)
           handler: handleRoundCreated
