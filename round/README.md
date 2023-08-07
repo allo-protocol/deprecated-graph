@@ -18,6 +18,8 @@ The following sections document the hosted services where the subgraph is deploy
 | fantom         | gitcoinco/grants-round-fantom-mainnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-mainnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-mainnet         |
 | fantom-testnet | gitcoinco/grants-round-fantom-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-testnet         |
 | optimism       | gitcoinco/grants-round-optimism-mainnet      | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-optimism-mainnet      | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-optimism-mainnet       |
+| pgn-testnet | gitcoinco/grants-round-pgn-testnet |  | http://159.203.78.168:8000/subgraphs/name/gitcoin/allo |
+| pgn | gitcoinco/grants-round-pgn-mainnet |  | http://159.89.46.168:8000/subgraphs/name/gitcoin/allo |
 
 ## Directory Structure
 
@@ -92,6 +94,8 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 | fantom         |
 | fantom-testnet |
 | localhost      |
+| pgn-testnet    |
+| pgn            |
 
 
 - Run codegen
@@ -106,7 +110,7 @@ graph auth --product hosted-service <YOUR_API_KEY>
 
 - Authenticate - incase of studio
 ```shell
-graph auth --studio <YOUR_API_KEY>
+graph auth --studio <YOUR_DEPLOY_KEY>
 ```
 
 - Deploy Subgraph - incase of hosted service
@@ -116,7 +120,7 @@ graph deploy --product hosted-service <GITHUB_USER>/<SUBGRAPH_NAME>
 
 - Deploy Subgraph - incase of studio
 ```shell
-graph deploy --studio <SUBGRAPH_NAME>
+graph deploy --studio <SUBGRAPH_SLUG>
 ```
 
 Note: If you find yourself wanting to run the entire flow in one command.

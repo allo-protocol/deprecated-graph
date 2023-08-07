@@ -1,0 +1,8 @@
+{
+  "network": "pgn-testnet",
+  "startBlock": 1144800,
+  "programFactoryAddress": "0x2Ff06F96Bb265698e47BfdED83f1aa0aC7c3a4Ce",
+  "roundFactoryAddress": "0x0479b9DA9f287539FEBd597350B1eBaEBF7479ac",
+  "merklePayoutStrategyFactoryAddress": "0xE42D1Da8d75Cf1d6f6C460DAa3f1b10a79D689B1",
+  "alloSettingsAddress": "0x2c57Bf1C8E7F5AcCFe9b3E703bde6706Ed84757D"
+}
