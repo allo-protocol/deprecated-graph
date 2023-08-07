@@ -56,7 +56,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "merklePayoutStrategyAddress",
+        "name": "directPayoutStrategyAddress",
         "type": "address"
       }
     ],
@@ -81,6 +81,19 @@
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nonce",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
