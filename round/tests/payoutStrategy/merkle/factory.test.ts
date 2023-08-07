@@ -1,11 +1,12 @@
-import { test, assert, newMockEvent, describe, beforeEach, clearStore, afterEach, logStore } from "matchstick-as/assembly/index";
+import { test, assert, newMockEvent, describe, beforeEach, clearStore, afterEach, logStore, createMockedFunction } from "matchstick-as/assembly/index";
 import { Address, ethereum } from "@graphprotocol/graph-ts";
 import { handlePayoutContractCreated } from "../../../src/payoutStrategy/merkle/factory";
 import { PayoutContractCreated  as PayoutContractCreatedEvent } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyFactory";
-import { PayoutStrategy } from "../../../generated/schema";
+import { MerklePayout } from "../../../generated/schema";
 
 let payoutContractAddress: Address;
 let payoutImplementation: Address;
+let roundContractAddress: Address;
 let newPayoutContractEvent: PayoutContractCreatedEvent;
 
 
@@ -27,11 +28,19 @@ describe("handlePayoutContractCreated", () => {
 
     payoutContractAddress = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2A");
     payoutImplementation = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2B");
+    roundContractAddress = Address.fromString("0xA16081F360e3847006dB660bae1c6d1b2e17eC2C");
 
     newPayoutContractEvent = createNewPayoutContractCreatedEvent(
       payoutContractAddress,
       payoutImplementation
     );
+
+    // mock global variables
+    createMockedFunction(
+      payoutContractAddress, "roundAddress", "roundAddress():(address)"
+    ).returns([
+      ethereum.Value.fromAddress(roundContractAddress)
+    ]);
 
   })
 
@@ -43,14 +52,14 @@ describe("handlePayoutContractCreated", () => {
 
     handlePayoutContractCreated(newPayoutContractEvent);
 
-    const payoutStrategy = PayoutStrategy.load(payoutContractAddress.toHex())
+    const payoutStrategy = MerklePayout.load(payoutContractAddress.toHex())
     assert.assertNotNull(payoutStrategy);
-    assert.entityCount("PayoutStrategy", 1);
-  
+    assert.entityCount("MerklePayout", 1);
+
     assert.stringEquals(payoutStrategy!.strategyName, "MERKLE");
     assert.stringEquals(payoutStrategy!.strategyAddress, payoutImplementation.toHex());
     assert.stringEquals(payoutStrategy!.id, payoutContractAddress.toHex());
     assert.stringEquals(payoutStrategy!.version, "0.1.0");
   });
-  
+
 });

@@ -120,19 +120,6 @@
   },
   {
     "inputs": [],
-    "name": "LOCK_DURATION",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "ROUND_OPERATOR_ROLE",
     "outputs": [
       {
@@ -210,6 +197,19 @@
   },
   {
     "inputs": [],
+    "name": "isDistributionSet",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "isReadyForPayout",
     "outputs": [
       {
@@ -232,19 +232,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "_distributions",
-        "type": "bytes[]"
-      }
-    ],
-    "name": "payout",
-    "outputs": [],
-    "stateMutability": "payable",
     "type": "function"
   },
   {

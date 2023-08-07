@@ -1,10 +1,14 @@
-// TODO: wait until ipfs.cat is supported in studio
-import { crypto, 
-  // ipfs, 
-  // json, 
+import { Address, BigInt, crypto,
+  ethereum,
+  // ipfs,
+  // json,
   JSONValue } from '@graphprotocol/graph-ts'
 import { ByteArray } from '@graphprotocol/graph-ts';
-import { MetaPtr } from '../generated/schema';
+import { MetaPtr, RoundApplication, StatusSnapshot, AlloSettings } from '../generated/schema';
+
+import {
+  AlloSettings as AlloSettingsContract
+} from "../generated/Round/AlloSettings";
 
 /**
  * Returns keccak256 of array after elements are joined by '-'
@@ -60,4 +64,51 @@ export function fetchMetaPtrData(protocol: number , pointer: string) : JSONValue
   // }
 
   return null;
+}
+
+const STATUS_DESCRIPTION = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "CANCELLED",
+  "IN REVIEW"
+]
+
+/**
+ * Creates a StatusSnapshot
+ * @param metaPtrId string
+ * @param protocol i32
+ * @param pointer string
+ * @returns MetaPtr
+ */
+export function createStatusSnapshot(roundApplication: RoundApplication, status: i32, event: ethereum.Event): StatusSnapshot {
+  let statusSnapshot = new StatusSnapshot([roundApplication.id.toString(), status.toString()].join('-'));
+  statusSnapshot.application = roundApplication.id;
+  statusSnapshot.status = status;
+  statusSnapshot.statusDescription = STATUS_DESCRIPTION[status];
+  statusSnapshot.timestamp = event.block.timestamp;
+  statusSnapshot.save();
+
+  return statusSnapshot;
+}
+
+/**
+ * Creates a AlloSettings
+ * @param alloSettingsId string
+ * @returns AlloSettings
+ */
+export function getAlloSettings(alloSettingsAddress: Address): AlloSetting {
+  let alloSettingId = alloSettingsAddress.toHexString();
+  let alloSetting = AlloSetting.load(alloSettingId);
+  if (alloSetting == null) {
+    alloSetting = new AlloSetting(alloSettingId);
+
+    let contract = AlloSettingsContract.bind(alloSettingsAddress)
+    alloSetting.protocolFeePercentage = contract.protocolFeePercentage();
+    alloSetting.protocolTreasury = contract.protocolTreasury().toHexString();
+
+    alloSetting.save()
+  }
+
+  return alloSetting;
 }

@@ -4,5 +4,6 @@
   "programFactoryAddress": "0xd5Fb00093Ebd30011d932cB69bb6313c550aB05f",
   "roundFactoryAddress": "0x04E753cFB8c8D1D7f776f7d7A033740961b6AEC2",
   "merklePayoutStrategyFactoryAddress": "0xB5365543cdDa2C795AD104F4cB784EF3DB1CD383",
-  "alloSettingsAddress": "0xD092e383478Bc565655331f0B88f758eeFa2eEB7"
+  "alloSettingsAddress": "0xD092e383478Bc565655331f0B88f758eeFa2eEB7",
+  "directPayoutStrategyFactoryAddress": "0x2Bb670C3ffC763b691062d671b386E51Cf1840f0"
 }

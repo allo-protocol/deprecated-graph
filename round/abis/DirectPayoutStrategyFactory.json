@@ -56,7 +56,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "merklePayoutStrategyAddress",
+        "name": "directPayoutStrategyAddress",
         "type": "address"
       }
     ],

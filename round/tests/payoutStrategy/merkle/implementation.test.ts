@@ -2,7 +2,7 @@ import { test, assert, newMockEvent, describe, beforeEach, clearStore, afterEach
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts";
 import { handleFundsDistributed } from "../../../src/payoutStrategy/merkle/implementation";
 import { FundsDistributed as FundsDistributedEvent } from "../../../generated/MerklePayoutStrategyFactory/MerklePayoutStrategyImplementation";
-import { Payout, Round, PayoutStrategy } from "../../../generated/schema";
+import { Payout, Round, MerklePayout } from "../../../generated/schema";
 import { generateID } from "../../../src/utils";
 import { Bytes } from '@graphprotocol/graph-ts'
 
@@ -53,7 +53,7 @@ describe("handleFundsDistributed", () => {
     // Create PayoutStrategy entity
     payoutStrategyAddress = Address.fromString("0xB16081F360e3847006dB660bae1c6d1b2e17eC2A");
 
-    const payoutStrategyEntity = new PayoutStrategy(payoutStrategyAddress.toHex());
+    const payoutStrategyEntity = new MerklePayout(payoutStrategyAddress.toHex());
     payoutStrategyEntity.strategyName = "MERKLE";
     payoutStrategyEntity.strategyAddress = "0xA16081F360e3847006dB660bae1c6d1b2e17eC2G";
     payoutStrategyEntity.isReadyForPayout = false;
@@ -141,7 +141,7 @@ describe("handleFundsDistributed", () => {
       projectId.toString()
     ]);
     const payout = Payout.load(id);
-    const payoutStrategy = PayoutStrategy.load(payout!.payoutStrategy);
+    const payoutStrategy = MerklePayout.load(payout!.payoutStrategy);
 
     assert.assertNotNull(payoutStrategy);
   });
