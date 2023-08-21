@@ -20,6 +20,9 @@ The following sections document the hosted services where the subgraph is deploy
 | optimism       | gitcoinco/grants-round-optimism-mainnet      | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-optimism-mainnet      | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-optimism-mainnet       |
 | pgn-testnet | gitcoinco/grants-round-pgn-testnet |  | http://159.203.78.168:8000/subgraphs/name/gitcoin/allo |
 | pgn | gitcoinco/grants-round-pgn-mainnet |  | http://159.89.46.168:8000/subgraphs/name/gitcoin/allo |
+| arbitrum-testnet | gitcoinco/grants-round-arbitrum-goerli  | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-arbitrum-goerli | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-arbitrum-goerli |
+| arbitrum-mainnet |  |  | |
+
 
 ## Directory Structure
 
@@ -96,6 +99,8 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 | localhost      |
 | pgn-testnet    |
 | pgn            |
+|arbitrum-testnet|
+|arbitrum-mainnet|
 
 
 - Run codegen
