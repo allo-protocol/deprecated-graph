@@ -1,0 +1,9 @@
+{
+    "network": "arbitrum-goerli",
+    "startBlock": 35766900,
+    "programFactoryAddress": "0xd39b40aC9279EeeB86FBbDeb2C9acDF16e16cF89",
+    "roundFactoryAddress": "0xdf25423c9ec15347197Aa5D3a41c2ebE27587D59",
+    "merklePayoutStrategyFactoryAddress": "0x8F8d78f119Aa722453d33d6881f4D400D67D054F",
+    "alloSettingsAddress": "0x64ab6F2E11dF8B3Be5c8838eDe3951AC928daE9C",
+    "directPayoutStrategyFactoryAddress": "0xCd3618509983FE4990D7770CF6f02c7145dC365F"
+}

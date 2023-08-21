@@ -1,0 +1,9 @@
+{
+    "network": "arbitrum-one",
+    "startBlock": 0,
+    "programFactoryAddress": "",
+    "roundFactoryAddress": "",
+    "merklePayoutStrategyFactoryAddress": "",
+    "alloSettingsAddress": "",
+    "directPayoutStrategyFactoryAddress": ""
+}
