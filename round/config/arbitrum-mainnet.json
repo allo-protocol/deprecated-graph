@@ -1,9 +1,9 @@
 {
     "network": "arbitrum-one",
-    "startBlock": 0,
-    "programFactoryAddress": "",
-    "roundFactoryAddress": "",
-    "merklePayoutStrategyFactoryAddress": "",
-    "alloSettingsAddress": "",
-    "directPayoutStrategyFactoryAddress": ""
+    "startBlock": 123570000,
+    "programFactoryAddress": "0xDF9BF58Aa1A1B73F0e214d79C652a7dd37a6074e",
+    "roundFactoryAddress": "0xF2a07728107B04266015E67b1468cA0a536956C8",
+    "merklePayoutStrategyFactoryAddress": "0x04b194b14532070F5cc8D3A760c9a0957D85ad5B",
+    "alloSettingsAddress": "0xD0e19DBF9b896199F35Df255A1bf8dB3C787531c",
+    "directPayoutStrategyFactoryAddress": "0xc1a26b0789C3E93b07713e90596Cad8d0442C826"
 }
