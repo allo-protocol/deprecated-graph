@@ -89,18 +89,20 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 
 **Supported Networks**
 
-| network        |
-|----------------|
-| mainnet        |   
-| goerli         |
-| optimism       |
-| fantom         |
-| fantom-testnet |
-| localhost      |
-| pgn-testnet    |
-| pgn            |
-|arbitrum-goerli |
-|arbitrum-one    |
+| network           |
+|-------------------|
+| mainnet           |   
+| goerli            |
+| optimism          |
+| fantom            |
+| fantom-testnet    |
+| localhost         |
+| pgn-testnet       |
+| pgn               |
+| arbitrum-goerli   |
+| arbitrum-one      |
+| fuji-testnet      |
+| avalanche-mainnet |
 
 
 - Run codegen
