@@ -22,6 +22,7 @@ The following sections document the hosted services where the subgraph is deploy
 | pgn | gitcoinco/grants-round-pgn-mainnet |  | http://159.89.46.168:8000/subgraphs/name/gitcoin/allo |
 | arbitrum-testnet | gitcoinco/grants-round-arbitrum-goerli  | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-arbitrum-goerli | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-arbitrum-goerli |
 | arbitrum-mainnet | gitcoinco/grants-round-arbitrum-mainnet | https:/thegraph.com/explorer/subgraph/gitcoinco/gitcoin-grants-arbitrum-one/ | https://api.thegraph.com/subgraphs/name/gitcoinco/gitcoin-grants-arbitrum-one/ |
+| fuji-testnet | gitcoinco/grants-round-fuji-testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-fuji-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fuji-testnet/ |
 
 
 ## Directory Structure
@@ -101,6 +102,8 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 | pgn            |
 |arbitrum-goerli |
 |arbitrum-one    |
+| fuji           |
+| avalanche      |
 
 
 - Run codegen
