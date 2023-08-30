@@ -1,6 +1,6 @@
 {
-    "network": "avalanche-mainnet",
-    "startBlock": 0,
+    "network": "avalanche",
+    "startBlock": 34540000,
     "programFactoryAddress": "0xd07D54b0231088Ca9BF7DA6291c911B885cBC140",
     "roundFactoryAddress": "0x8eC471f30cA797FD52F9D37A47Be2517a7BD6912",
     "merklePayoutStrategyFactoryAddress": "0x27efa1C90e097c980c669AB1a6e326AD4164f1Cb",
