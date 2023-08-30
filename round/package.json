@@ -21,7 +21,7 @@
     "prepare:fantom-testnet": "mustache config/fantom-testnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:fantom": "mustache config/fantom.json subgraph.template.yaml > subgraph.yaml",
     "prepare:arbitrum-testnet": "mustache config/arbitrum-testnet.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:arbitrum-mainnet": "mustache config/arbitrum-testnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:arbitrum-mainnet": "mustache config/arbitrum-mainnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:fuji-testnet": "mustache config/fuji-testnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:avalanche-mainnet": "mustache config/avalanche-testnet.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
