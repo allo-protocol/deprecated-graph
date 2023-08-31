@@ -1,0 +1,9 @@
+{
+  "network": "avalanche",
+  "startBlock": 0,
+  "programFactoryAddress": "",
+  "roundFactoryAddress": "",
+  "merklePayoutStrategyFactoryAddress": "",
+  "alloSettingsAddress": "",
+  "directPayoutStrategyFactoryAddress": ""
+}
