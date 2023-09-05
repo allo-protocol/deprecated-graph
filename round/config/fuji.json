@@ -1,0 +1,9 @@
+{
+    "network": "fuji-testnet",
+    "startBlock": 0,
+    "programFactoryAddress": "0x862D7F621409cF572f179367DdF1B7144AcE1c76",
+    "roundFactoryAddress": "0x3615d870d5B760cea43693ABED70Cd8A9b59b3d8",
+    "merklePayoutStrategyFactoryAddress": "0x8F8d78f119Aa722453d33d6881f4D400D67D054F",
+    "directPayoutStrategyFactoryAddress": "0x0F98547e09D41e3c82086fC5Eb0E42Ab786aA763",
+    "alloSettingsAddress": "0xdf25423c9ec15347197Aa5D3a41c2ebE27587D59"
+  }
