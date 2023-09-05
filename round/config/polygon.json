@@ -1,0 +1,9 @@
+{
+    "network": "polygon",
+    "startBlock": 0,
+    "programFactoryAddress": "",
+    "roundFactoryAddress": "",
+    "merklePayoutStrategyFactoryAddress": "",
+    "directPayoutStrategyFactoryAddress": "",
+    "alloSettingsAddress": ""
+  }
