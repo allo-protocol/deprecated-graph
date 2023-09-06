@@ -1,0 +1,9 @@
+{
+    "network": "mumbai",
+    "startBlock": 39796840,
+    "programFactoryAddress": "0xDF9BF58Aa1A1B73F0e214d79C652a7dd37a6074e",
+    "roundFactoryAddress": "0xE1c5812e9831bc1d5BDcF50AAEc1a47C4508F3fA",
+    "merklePayoutStrategyFactoryAddress": "0xc1a26b0789C3E93b07713e90596Cad8d0442C826",
+    "directPayoutStrategyFactoryAddress": "0xD9B7Ce1F68A93dF783A8519ed52b74f5DcF5AFE1",
+    "alloSettingsAddress": "0xF2a07728107B04266015E67b1468cA0a536956C8"
+  }
