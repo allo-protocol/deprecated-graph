@@ -24,7 +24,7 @@
     "prepare:arbitrum-mainnet": "mustache config/arbitrum-testnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:fuji-testnet": "mustache config/fuji-testnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:avalanche-mainnet": "mustache config/avalanche-testnet.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:polygon": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml",
     "prepare:mumbai": "mustache config/mumbai.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
     "build": "graph build",
