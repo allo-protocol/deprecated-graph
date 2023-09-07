@@ -1,19 +1,18 @@
 # graph
 
-This package holds the subgraph which indexes data with regard the
+## This package holds the subgraph which indexes data with regard the
 - ProgramFactory
 - ProgramImplementation
 - RoundFactory
 - RoundImplementation
 
-
-#### Deployed Subgraphs
+### Deployed Subgraphs
 
 The following sections document the hosted services where the subgraph is deployed across different networks
 
 | Network        | GITHUB_USER/SUBGRAPH_NAME                    | Playground                                                                                | Query                                                                                 |
 |----------------|----------------------------------------------|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| mainnet        | allo                         | https://thegraph.com/studio/subgraph/allo/playground  | https://gateway.thegraph.com/api/[api-key]/subgraphs/id/BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr                 |
+| mainnet        | Studio - Safe Login                          | https://thegraph.com/studio/subgraph/allo/playground  | https://gateway.thegraph.com/api/[api-key]/subgraphs/id/BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr                 |
 | goerli         | gitcoinco/grants-round-goerli-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-goerli-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-goerli-testnet         |
 | fantom         | gitcoinco/grants-round-fantom-mainnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-mainnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-mainnet         |
 | fantom-testnet | gitcoinco/grants-round-fantom-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-testnet         |
@@ -24,7 +23,7 @@ The following sections document the hosted services where the subgraph is deploy
 | arbitrum-mainnet | gitcoinco/grants-round-arbitrum-mainnet | https:/thegraph.com/explorer/subgraph/gitcoinco/gitcoin-grants-arbitrum-one/ | https://api.thegraph.com/subgraphs/name/gitcoinco/gitcoin-grants-arbitrum-one/ |
 | fuji | gitcoinco/grants-round-fuji-testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-fuji-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fuji-testnet/ |
 | avalanche | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-avalanche-mainnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-avalanche-mainnet/graphql |
-| zkSync-era | Studio | https://thegraph.com/studio/subgraph/grants-round-zkera | https://api.studio.thegraph.com/query/45391/grants-round-zkera/v0.0.1 |
+| zkSync-era | Studio - Safe Login | https://thegraph.com/studio/subgraph/grants-round-zkera | https://api.studio.thegraph.com/query/45391/grants-round-zkera/v0.0.1 |
 | zkSync-testnet | |
 
 
