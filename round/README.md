@@ -24,7 +24,7 @@ The following sections document the hosted services where the subgraph is deploy
 | arbitrum-mainnet | gitcoinco/grants-round-arbitrum-mainnet | https:/thegraph.com/explorer/subgraph/gitcoinco/gitcoin-grants-arbitrum-one/ | https://api.thegraph.com/subgraphs/name/gitcoinco/gitcoin-grants-arbitrum-one/ |
 | fuji | gitcoinco/grants-round-fuji-testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-fuji-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fuji-testnet/ |
 | avalanche | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-avalanche-mainnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-avalanche-mainnet/graphql |
-
+|  zkSync testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-zkync-era-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-zkync-era-testnet |
 
 ## Directory Structure
 
