@@ -5,6 +5,9 @@
 - ProgramImplementation
 - RoundFactory
 - RoundImplementation
+- PayoutStrategy
+  - DirectPayout
+  - MerkleDistributor
 
 ### Deployed Subgraphs
 
@@ -39,10 +42,13 @@ The following sections document the hosted services where the subgraph is deploy
 │   ├── round
 │       ├── factory.ts              # RoundFactory event handlers
 │       ├── implementation.ts       # RoundImplementation event handlers
-│   ├── votingStrategy
-│       ├── QuadraticFunding
-│           ├── factory.ts          # QFFactory event handlers
-│           ├── implementation.ts   # QFImplementation event handlers
+│   ├── payoutStrategy
+│       ├── direct                  # DirectPayout
+│           ├── factory.ts          # DirectPayoutFactory event handlers
+│           ├── implementation.ts   # DirectPayoutImplementation event handlers
+│       ├── merkle                  # MerkleDistributor 
+│           ├── factory.ts          # MerkleDistributorFactory event handlers
+│           ├── implementation.ts   # MerkleDistributorImplementation event handlers
 │   ├── utils.ts                    # useful helper functions
 ├── schema.graphql                  # Entity schema
 ├── config                          # Chain + contract configuration
@@ -58,10 +64,9 @@ The following sections document the hosted services where the subgraph is deploy
 To know more about the queries which can be run on the playground, check out the documentation for
 - [Program](docs/Program.md)
 - [Round](docs/Round.md)
-- [QFVotingStrategy](docs/QFVotingStrategy.md)
+- [PayoutStrategy](docs/PayoutStrategy.md)
 
 To know the relationship between the different entities and the type of queries. Refer [schema.graphql](./schema.graphql)
-
 
 ## Deploy subgraph locally
 
@@ -76,14 +81,15 @@ The `docker-compose.yml` contains everything you need to run your own local grap
 
 
 ## Deploy Subgraph on a hosted service
-Generate your hosted-service API key on the graph
+Generate your hosted-service API key on the graph [here](https://thegraph.com/explorer/dashboard). You can also use the Studio [here](https://thegraph.com/studio/dashboard). Make sure you pay attention to the commands based on the service you are using.
 
-- Remove redundant files
+- Remove any old files that may interfere with the generation of the subgraph
 ```shell
-rm -rf generated && rm -rf build
+rm -rf generated && rm -rf build && rm -rf subgraph.yaml
 ```
 
-- Generate the `subgraph.yaml` for the network against which you'd like to deploy the subgraph
+- Generate the `subgraph.yaml` for the network against which you'd like to deploy the subgraph. If you are deploying to a network
+that is not on our Supported Networks list, you would have to add the network configuration in `config/<NETWORK_TO_DEPLOY_SUBGRAPH>.json`. Refer to the existing config files for the structure. Once you have added the config file, add the script to the `package.json` file like the other networks. Once you have added the script, generate the `subgraph.yaml` using the following command (also see Deploying subgraph to a new network below). 
 
 ```shell
 pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
@@ -91,7 +97,7 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 
 **Supported Networks**
 
-| network         |
+| Network         |
 |-----------------|
 | mainnet         |   
 | goerli          |
@@ -107,8 +113,8 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 | avalanche       |
 | polygon         |
 | mumbai          |
-
-
+| zksync-era      |
+| zksync-testnet  |
 
 - Run codegen
 ```shell
