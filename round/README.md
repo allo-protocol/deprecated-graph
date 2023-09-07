@@ -106,6 +106,8 @@ pnpm prepare:<NETWORK_TO_DEPLOY_SUBGRAPH>
 | arbitrum-one    |
 | fuji            |
 | avalanche       |
+| polygon         |
+| mumbai          |
 
 
 

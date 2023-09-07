@@ -1,0 +1,9 @@
+{
+    "network": "matic",
+    "startBlock": 47215900,
+    "programFactoryAddress": "0xF7c101A95Ea4cBD5DA0Ab9827D7B2C9857440143",
+    "roundFactoryAddress": "0x5ab68dCdcA37A1C2b09c5218e28eB0d9cc3FEb03",
+    "merklePayoutStrategyFactoryAddress": "0xD0e19DBF9b896199F35Df255A1bf8dB3C787531c",
+    "directPayoutStrategyFactoryAddress": "0xF2a07728107B04266015E67b1468cA0a536956C8",
+    "alloSettingsAddress": "0x359c9fD5ef57D4eDD6C8b42a351e12352DB0DaBC"
+  }
