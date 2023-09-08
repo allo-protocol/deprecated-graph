@@ -29,7 +29,7 @@ Note: To keep data consistent, always attempt to update the older handler to bac
 1. Move the current abi from `abis/QuadraticFundingVotingStrategyImplementation.json` to `abis/legacy/QuadraticFundingVotingStrategyImplementation/V1.json`. ( note: do not overwrite existing legacy abi, always name the file as the latest abi version. Ex: V1, V2,..., Vn )
 
 2. Move the current handler from `src/votingStrategy/quadraticFunding/implementation.ts` to `src/legacy/votingStrategy/quadraticFunding/implementationLegacyV1.ts`.
-Add documentation in the following format to ensure we track history
+Add documentation in the following format to ensure we track history.
 ```js
 // name     : implementation.ts
 // status   : legacy

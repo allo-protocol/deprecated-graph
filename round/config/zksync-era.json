@@ -1,10 +1,9 @@
 {
-    "network": "zkSync-era",
-    "startBlock": 0,
-    "programFactoryAddress": "",
-    "roundFactoryAddress": "",
-    "merklePayoutStrategyFactoryAddress": "",
-    "alloSettingsAddress": "",
-    "directPayoutStrategyFactoryAddress": ""
+  "network": "zksync-era",
+  "startBlock": 13165236,
+  "programFactoryAddress": "0xe1b01395986bd93Cc9Fa62290987793c150a1AB2",
+  "roundFactoryAddress": "0xF631C72e0C5837b794911DDaf167861d1A3eDBf5",
+  "merklePayoutStrategyFactoryAddress": "0xE3710C11A5E06E987657A8ce665961362C079De3",
+  "directPayoutStrategyFactoryAddress": "0x5A7ea8C03C40e02A97B1901101e415Fdfc1aE64d",
+  "alloSettingsAddress": "0xA86824AB3038daCfeB61e03f45CA1a02b77f1081"
 }
-  
