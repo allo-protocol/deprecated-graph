@@ -28,6 +28,7 @@
     "prepare:zksync-era": "mustache config/zksync-era.json subgraph.template.yaml > subgraph.yaml",
     "prepare:polygon": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml",
     "prepare:mumbai": "mustache config/mumbai.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:base-mainnet": "mustache config/base-mainnet.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy-hs": "graph deploy --product hosted-service lmcorbalan/gc-rounds-v0",
