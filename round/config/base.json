@@ -1,0 +1,9 @@
+{
+    "network": "base",
+    "startBlock": 7151800,
+    "programFactoryAddress": "0xDF9BF58Aa1A1B73F0e214d79C652a7dd37a6074e",
+    "roundFactoryAddress": "0xc7722909fEBf7880E15e67d563E2736D9Bb9c1Ab",
+    "merklePayoutStrategyFactoryAddress": "0xF7c101A95Ea4cBD5DA0Ab9827D7B2C9857440143",
+    "alloSettingsAddress": "0x7ac74Be34b1A27E48a2525259719F877a57B2Aa4",
+    "directPayoutStrategyFactoryAddress": "0x74c3665540FC8B92Dd06a7e56a51eCa038C18180"
+}
