@@ -1,9 +1,9 @@
 {
   "network": "zksync-era",
-  "startBlock": 13165236,
-  "programFactoryAddress": "0xe1b01395986bd93Cc9Fa62290987793c150a1AB2",
-  "roundFactoryAddress": "0xF631C72e0C5837b794911DDaf167861d1A3eDBf5",
-  "merklePayoutStrategyFactoryAddress": "0xE3710C11A5E06E987657A8ce665961362C079De3",
-  "directPayoutStrategyFactoryAddress": "0x5A7ea8C03C40e02A97B1901101e415Fdfc1aE64d",
-  "alloSettingsAddress": "0xA86824AB3038daCfeB61e03f45CA1a02b77f1081"
+  "startBlock": 20900000,
+  "programFactoryAddress": "0x68a14AF71BFa0FE09fC937033f6Ea5153c0e75e4",
+  "roundFactoryAddress": "0xF3B5a0d59C6292BD0e4f8Cf735EEF52b98f428E6",
+  "merklePayoutStrategyFactoryAddress": "0x41A8F19C6CB88C9Cc98d29Cb7A4015629910fFc0",
+  "directPayoutStrategyFactoryAddress": "0x0ccdfCB7e5DB60AAE5667d1680B490F7830c49C8",
+  "alloSettingsAddress": "0x7423451F93F8AA5324F61C36fAa76896E58ACd18"
 }
