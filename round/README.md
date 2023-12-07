@@ -28,7 +28,7 @@ The following sections document the hosted services where the subgraph is deploy
 | avalanche | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-avalanche-mainnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-avalanche-mainnet/graphql |
 | polygon | https://thegraph.com/hosted-service/subgraph/allo-protocol/grants-round-polygon | https://api.thegraph.com/subgraphs/name/allo-protocol/grants-round-polygon |
 | mumbai | https://thegraph.com/hosted-service/subgraph/allo-protocol/grants-round-mumbai | https://api.thegraph.com/subgraphs/name/allo-protocol/grants-round-mumbai |
-| zkSync-era | Studio - Safe Login | https://thegraph.com/studio/subgraph/grants-round-zkera | https://api.studio.thegraph.com/query/45391/grants-round-zkera/v0.0.1 |
+| zkSync-era | Studio - Safe Login | https://thegraph.com/studio/subgraph/grants-round-zkera | https://api.studio.thegraph.com/query/45391/grants-round-zkera/v0.0.2 |
 |  zkSync testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-zkync-era-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-zkync-era-testnet |
 | base | https://api.studio.thegraph.com/query/45391/grants-round-base/version/latest | https://api.studio.thegraph.com/query/45391/grants-round-base/v0.0.1 |
 
