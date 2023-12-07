@@ -1,0 +1,10 @@
+{
+    "network": "zksync-era-testnet",
+    "startBlock": 14411000,
+    "programFactoryAddress": "0x6D341814Be4E2316142D9190E390b494F1dECFAf",
+    "roundFactoryAddress": "0x0Bb6e2dfEaef0Db5809B3979717E99e053Cbae72",
+    "merklePayoutStrategyFactoryAddress": "0xbA160C13F8F626e3232078aDFD6eD2f2B2289563",
+    "alloSettingsAddress": "0x2891369Fb2DA2898B35b91dbd55b2489061abbE5",
+    "directPayoutStrategyFactoryAddress": "0x4170665B31bC10009f8a69CeaACf3265C3d66797"
+}
+  
