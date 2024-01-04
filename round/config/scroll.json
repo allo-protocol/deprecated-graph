@@ -1,0 +1,9 @@
+{
+  "network": "scroll",
+  "startBlock": 0,
+  "programFactoryAddress": "0x",
+  "roundFactoryAddress": "0x",
+  "merklePayoutStrategyFactoryAddress": "0x",
+  "alloSettingsAddress": "0x",
+  "directPayoutStrategyFactoryAddress": "0x"
+}

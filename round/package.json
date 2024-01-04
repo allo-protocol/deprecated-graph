@@ -29,6 +29,8 @@
     "prepare:polygon": "mustache config/matic.json subgraph.template.yaml > subgraph.yaml",
     "prepare:mumbai": "mustache config/mumbai.json subgraph.template.yaml > subgraph.yaml",
     "prepare:base": "mustache config/base.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:scroll-sepolia": "mustache config/scroll-sepolia.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:scroll": "mustache config/scroll.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy-hs": "graph deploy --product hosted-service lmcorbalan/gc-rounds-v0",
