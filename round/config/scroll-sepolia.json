@@ -1,0 +1,9 @@
+{
+  "network": "scroll-sepolia",
+  "startBlock": 2735695,
+  "programFactoryAddress": "0xd07D54b0231088Ca9BF7DA6291c911B885cBC140",
+  "roundFactoryAddress": "0xF2a07728107B04266015E67b1468cA0a536956C8",
+  "merklePayoutStrategyFactoryAddress": "0xc1a26b0789C3E93b07713e90596Cad8d0442C826",
+  "alloSettingsAddress": "0x359c9fD5ef57D4eDD6C8b42a351e12352DB0DaBC",
+  "directPayoutStrategyFactoryAddress": "0xD9B7Ce1F68A93dF783A8519ed52b74f5DcF5AFE1"
+}
