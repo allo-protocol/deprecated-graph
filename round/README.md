@@ -13,24 +13,122 @@
 
 The following sections document the hosted services where the subgraph is deployed across different networks
 
-| Network        | GITHUB_USER/SUBGRAPH_NAME                    | Playground                                                                                | Query                                                                                 |
-|----------------|----------------------------------------------|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| mainnet        | Studio - Safe Login                          | https://thegraph.com/studio/subgraph/allo/playground  | https://gateway.thegraph.com/api/[api-key]/subgraphs/id/BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr                 |
-| goerli         | gitcoinco/grants-round-goerli-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-goerli-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-goerli-testnet         |
-| fantom         | gitcoinco/grants-round-fantom-mainnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-mainnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-mainnet         |
-| fantom-testnet | gitcoinco/grants-round-fantom-testnet        | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-testnet        | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-testnet         |
-| optimism       | gitcoinco/grants-round-optimism-mainnet      | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-optimism-mainnet      | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-optimism-mainnet       |
-| pgn-testnet | gitcoinco/grants-round-pgn-testnet |  | http://159.203.78.168:8000/subgraphs/name/gitcoin/allo |
-| pgn | gitcoinco/grants-round-pgn-mainnet |  | http://159.89.46.168:8000/subgraphs/name/gitcoin/allo |
-| arbitrum-testnet | gitcoinco/grants-round-arbitrum-goerli  | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-arbitrum-goerli | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-arbitrum-goerli |
-| arbitrum-mainnet | gitcoinco/grants-round-arbitrum-mainnet | https:/thegraph.com/explorer/subgraph/gitcoinco/gitcoin-grants-arbitrum-one/ | https://api.thegraph.com/subgraphs/name/gitcoinco/gitcoin-grants-arbitrum-one/ |
-| fuji | gitcoinco/grants-round-fuji-testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-fuji-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fuji-testnet/ |
-| avalanche | https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-avalanche-mainnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-avalanche-mainnet/graphql |
-| polygon | https://thegraph.com/hosted-service/subgraph/allo-protocol/grants-round-polygon | https://api.thegraph.com/subgraphs/name/allo-protocol/grants-round-polygon |
-| mumbai | https://thegraph.com/hosted-service/subgraph/allo-protocol/grants-round-mumbai | https://api.thegraph.com/subgraphs/name/allo-protocol/grants-round-mumbai |
-| zkSync-era | Studio - Safe Login | https://thegraph.com/studio/subgraph/grants-round-zkera | https://api.studio.thegraph.com/query/45391/grants-round-zkera/v0.0.2 |
-|  zkSync testnet | https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-zkync-era-testnet | https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-zkync-era-testnet |
-| base | https://api.studio.thegraph.com/query/45391/grants-round-base/version/latest | https://api.studio.thegraph.com/query/45391/grants-round-base/v0.0.1 |
+<table>
+  <thead>
+    <tr>
+      <th>Network</th>
+      <th>GITHUB_USER/SUBGRAPH_NAME</th>
+      <th>Playground</th>
+      <th>Query</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mainnet</td>
+      <td>Studio - Safe Login</td>
+      <td><a href="https://thegraph.com/studio/subgraph/allo/playground">Link</a></td>
+      <td><a href="https://gateway.thegraph.com/api/[api-key]/subgraphs/id/BQXTJRLZi7NWGq5AXzQQxvYNa5i1HmqALEJwy3gGJHCr">Link</a></td>
+    </tr>
+    <tr>
+      <td>goerli</td>
+      <td>gitcoinco/grants-round-goerli-testnet</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-goerli-testnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-goerli-testnet">Link</a></td>
+    </tr>
+    <tr>
+      <td>fantom</td>
+      <td>gitcoinco/grants-round-fantom-mainnet</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-mainnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-mainnet">Link</a></td>
+    </tr>
+    <tr>
+      <td>fantom-testnet</td>
+      <td>gitcoinco/grants-round-fantom-testnet</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-fantom-testnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fantom-testnet">Link</a></td>
+    </tr>
+    <tr>
+      <td>optimism</td>
+      <td>gitcoinco/grants-round-optimism-mainnet</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-optimism-mainnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-optimism-mainnet">Link</a></td>
+    </tr>
+    <tr>
+      <td>pgn-testnet</td>
+      <td>gitcoinco/grants-round-pgn-testnet</td>
+      <td></td>
+      <td><a href="http://159.203.78.168:8000/subgraphs/name/gitcoin/allo">Link</a></td>
+    </tr>
+    <tr>
+      <td>pgn</td>
+      <td>gitcoinco/grants-round-pgn-mainnet</td>
+      <td></td>
+      <td><a href="http://159.89.46.168:8000/subgraphs/name/gitcoin/allo">Link</a></td>
+    </tr>
+    <tr>
+      <td>arbitrum-testnet</td>
+      <td>gitcoinco/grants-round-arbitrum-goerli</td>
+      <td><a href="https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-arbitrum-goerli">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-arbitrum-goerli">Link</a></td>
+    </tr>
+    <tr>
+      <td>arbitrum-mainnet</td>
+      <td>gitcoinco/grants-round-arbitrum-mainnet</td>
+      <td><a href="https://thegraph.com/explorer/subgraph/gitcoinco/gitcoin-grants-arbitrum-one/">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/gitcoin-grants-arbitrum-one/">Link</a></td>
+    </tr>
+    <tr>
+      <td>fuji</td>
+      <td>gitcoinco/grants-round-fuji-testnet</td>
+      <td><a href="https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-fuji-testnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-fuji-testnet/">Link</a></td>
+    </tr>
+    <tr>
+      <td>avalanche</td>
+      <td>gitcoinco/grants-round-avalanche-mainnet</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/gitcoinco/grants-round-avalanche-mainnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-avalanche-mainnet/graphql">Link</a></td>
+    </tr>
+    <tr>
+      <td>polygon</td>
+      <td>allo-protocol/grants-round-polygon</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/allo-protocol/grants-round-polygon">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/allo-protocol/grants-round-polygon">Link</a></td>
+    </tr>
+    <tr>
+      <td>mumbai</td>
+      <td>allo-protocol/grants-round-mumbai</td>
+      <td><a href="https://thegraph.com/hosted-service/subgraph/allo-protocol/grants-round-mumbai">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/allo-protocol/grants-round-mumbai">Link</a></td>
+    </tr>
+    <tr>
+      <td>zkSync-era</td>
+      <td>Studio - Safe Login</td>
+      <td><a href="https://thegraph.com/studio/subgraph/grants-round-zkera">Link</a></td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-zkera/v0.0.2">Link</a></td>
+    </tr>
+    <tr>
+      <td>zkSync testnet</td>
+      <td>gitcoinco/grants-round-zkync-era-testnet</td>
+      <td><a href="https://thegraph.com/explorer/subgraph/gitcoinco/grants-round-zkync-era-testnet">Link</a></td>
+      <td><a href="https://api.thegraph.com/subgraphs/name/gitcoinco/grants-round-zkync-era-testnet">Link</a></td>
+    </tr>
+    <tr>
+      <td>base</td>
+      <td>Studio - Safe Login</td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-base/version/latest">Link</a></td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-base/v0.0.1">Link</a></td>
+    </tr>
+      <tr>
+      <td>Scroll Sepolia</td>
+      <td>Studio - Safe Login</td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-scroll-sepolia/version/latest">Link</a></td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-scroll-sepolia/v0.0.1">Link</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
 
 ## Directory Structure
 
