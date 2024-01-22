@@ -119,11 +119,17 @@ The following sections document the hosted services where the subgraph is deploy
       <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-base/version/latest">Link</a></td>
       <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-base/v0.0.1">Link</a></td>
     </tr>
-      <tr>
+    <tr>
       <td>Scroll Sepolia</td>
       <td>Studio - Safe Login</td>
       <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-scroll-sepolia/version/latest">Link</a></td>
       <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-scroll-sepolia/v0.0.1">Link</a></td>
+    </tr>
+    <tr>
+      <td>Scroll Mainnet</td>
+      <td>Studio - Safe Login</td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-scroll/version/latest">Link</a></td>
+      <td><a href="https://api.studio.thegraph.com/query/45391/grants-round-scroll/v0.0.2">Link</a></td>
     </tr>
   </tbody>
 </table>

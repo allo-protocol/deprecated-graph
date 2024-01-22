@@ -1,9 +1,9 @@
 {
   "network": "scroll",
-  "startBlock": 0,
-  "programFactoryAddress": "0x",
-  "roundFactoryAddress": "0x",
-  "merklePayoutStrategyFactoryAddress": "0x",
-  "alloSettingsAddress": "0x",
-  "directPayoutStrategyFactoryAddress": "0x"
+  "startBlock": 2684000,
+  "programFactoryAddress": "0x545B282A50EaeA01A619914d44105437036CbB36",
+  "roundFactoryAddress": "0x29aAF7D4E83A778DAee08Fe04B0712c4C2989AD1",
+  "merklePayoutStrategyFactoryAddress": "0x7ac74Be34b1A27E48a2525259719F877a57B2Aa4",
+  "alloSettingsAddress": "0x0c33c9dEF7A3d9961b802C6C6402d306b7D48135",
+  "directPayoutStrategyFactoryAddress": "0xc7722909fEBf7880E15e67d563E2736D9Bb9c1Ab"
 }
